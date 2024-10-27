@@ -1,36 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using T2305M_API.Entities.Notification;
+
 
 namespace T2305M_API.Entities;
 
 public partial class User
 {
-    public int UserId { get; set; }
-    public string FullName { get; set; } = null!;
-    public string Email { get; set; } = null!;
-    public string? Password { get; set; }
+    [Key]
+    public int UserId { get; set; } // auto-increment
+    public string CustomerId { get; set; } // for login and display
+    public string Email { get; set; }
+    public string Password { get; set; }
+    public string Phone { get; set; }
+    public string TransPassword { get; set; } // 8 pin password
+    public string Name { get; set; }
+    public string CitizenId { get; set; }
+    public string CitizenIdFront { get; set; }
+    public string CitizenIdRear { get; set; }
+    public string? DigitalSignature { get; set; }// img
+    public string Address { get; set; }
     public string Role { get; set; } = "USER"; // USER/ ADMIN /
-    public int? Age { get; set; }
-    public string? Education { get; set; }  // This can be a simple string or a list of degrees
-    public string? ShortBiography { get; set; }
-    [Column(TypeName = "NVARCHAR(MAX)")] // or "VARCHAR(MAX)" if you prefer
-    public string? LongBiography { get; set; }
-    public string? PhotoUrl { get; set; } = "/uploads/avatars/default-avatar.png";
-    public string? Facebook { get; set; }
-    public string? LinkedIn { get; set; }
-    public string? Twitter { get; set; }
-    public string? PersonalWebsiteUrl { get; set; }
-    public string? PersonalWebsiteTitle { get; set; }
-    public bool ReceiveNotifications { get; set; } = true;
-    public bool IsActive { get; set; } = true;  // Account activation status
-    public DateTime? CreatedAt { get; set; }
+    public string? Avatar { get; set; }
+    public string Status { get; set; } = "ACTIVE";  // Account activation status ACTIVE/ LOCKED
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
     public DateTime? UpdatedAt { get; set; }
-    public virtual ICollection<UserEvent>? UserEvents { get; set; }  // Navigation property for many-to-many
-    public virtual ICollection<UserArticle>? UserArticles { get; set; }  // Navigation property for many-to-many
-    public virtual ICollection<UserNotification>? UserNotifications { get; set; }  // Navigation property for many-to-many
-    public virtual ICollection<EventTicket>? EventTickets { get; set; }  // Navigation property for many-to-many 
-    public virtual ICollection<Order>? Orders { get; set; }  // Navigation property for many-to-many 
+    public int LoginAttempt { get; set; } = 0; // reset to 0 when successful login 
+    public bool IsEmailConfirmed { get; set; } = false;
+    public string? EmailConfirmationToken { get; set; }
+    public string? PasswordResetToken { get; set; } // New field
+    public virtual ICollection<Account>? Accounts { get; set; }  // Navigation property for many-to-many
+    public virtual ICollection<Notification>? Notifications{ get; set; }  // Navigation property for many-to-many
+    public virtual ICollection<Transaction>? Transactions { get; set; }  // Navigation property for many-to-many
+    public virtual ICollection<ServiceRequest>? ServiceRequests { get; set; }  // Navigation property for many-to-many
+    public virtual ICollection<CheckBook>? CheckBooks { get; set; }  // Navigation property for many-to-many
+    public virtual ICollection<Check>? Checks { get; set; }  // Navigation property for many-to-many
 
 }

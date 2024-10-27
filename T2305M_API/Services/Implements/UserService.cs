@@ -28,119 +28,121 @@ namespace T2305M_API.Services.Implements
             _mapper = mapper;
             _context = context;
         }
-        public async Task<GetDetailUserDTO> GetDetailUserDTOByIdAsync(int userId)
-        {
-            // Fetch the user entity by ID
-/*            var userEntity = await _userRepository.GetUserByIdAsync(userId)*/;
-            var userEntity = await _userRepository.GetUserByIdAsync(userId,  true, true);
+//        public async Task<GetDetailUserDTO> GetDetailUserDTOByIdAsync(int userId)
+//        {
+//            // Fetch the user entity by ID
+///*            var userEntity = await _userRepository.GetUserByIdAsync(userId)*/;
+//            var userEntity = await _userRepository.GetUserByIdAsync(userId,  true, true);
 
 
-            if (userEntity == null)
-            {
-                return null; // Or throw an appropriate exception if you prefer
-            }
+//            if (userEntity == null)
+//            {
+//                return null; // Or throw an appropriate exception if you prefer
+//            }
 
-            //var variable =  userEntity.UserEvents.Count;
-            // Map the user entity to the GetDetailUserDTO
-            var detailUserDTO = new GetDetailUserDTO
-            {
-                UserId = userEntity.UserId,
-                FullName = userEntity.FullName,
-                Email = userEntity.Email,
-                Age = userEntity.Age,
-                Education = userEntity.Education,
-                ShortBiography = userEntity.ShortBiography,
-                LongBiography = userEntity.LongBiography,
-                PhotoUrl = userEntity.PhotoUrl,
-                Facebook = userEntity.Facebook,
-                LinkedIn = userEntity.LinkedIn,
-                Twitter = userEntity.Twitter,
-                PersonalWebsiteUrl = userEntity.PersonalWebsiteUrl,
-                PersonalWebsiteTitle = userEntity.PersonalWebsiteTitle,
-                ReceiveNotifications = userEntity.ReceiveNotifications,
-                IsActive = userEntity.IsActive,
+//            //var variable =  userEntity.UserEvents.Count;
+//            // Map the user entity to the GetDetailUserDTO
+//            var detailUserDTO = new GetDetailUserDTO
+//            {
+//                UserId = userEntity.UserId,
+//                FullName = userEntity.FullName,
+//                Email = userEntity.Email,
+//                Age = userEntity.Age,
+//                Education = userEntity.Education,
+//                ShortBiography = userEntity.ShortBiography,
+//                LongBiography = userEntity.LongBiography,
+//                PhotoUrl = userEntity.PhotoUrl,
+//                Facebook = userEntity.Facebook,
+//                LinkedIn = userEntity.LinkedIn,
+//                Twitter = userEntity.Twitter,
+//                PersonalWebsiteUrl = userEntity.PersonalWebsiteUrl,
+//                PersonalWebsiteTitle = userEntity.PersonalWebsiteTitle,
+//                ReceiveNotifications = userEntity.ReceiveNotifications,
+//                IsActive = userEntity.IsActive,
                 
 
-                // Mapping UserEvents to BasicUserSavedEventDTO
-                BasicUserSavedEvents = userEntity.UserEvents?
-                    .Where(e => e.Event != null) // Ensure that the Event is not null
-                    .Select(e =>  _mapper.Map<GetBasicEventDTO>(e.Event))
-                    .ToList(),
+//                // Mapping UserEvents to BasicUserSavedEventDTO
+//                BasicUserSavedEvents = userEntity.UserEvents?
+//                    .Where(e => e.Event != null) // Ensure that the Event is not null
+//                    .Select(e =>  _mapper.Map<GetBasicEventDTO>(e.Event))
+//                    .ToList(),
 
-                // Mapping UserArticles to BasicUserArticleDTO
-                BasicUserArticles = userEntity.UserArticles?.Select(a => new GetBasicUserArticleDTO
-                {
-                    UserArticleId = a.UserArticleId,
-                    Title = a.Title,
-                    Description = a.Description,
-                    ThumbnailImage = a.ThumbnailImage,
-                    IsPromoted = a.IsPromoted,
-                    UserId = a.UserId,
-                    UserName = a.User != null ? a.User.FullName : "Unknown", // Assuming User has a Name property
-                    CreatedAt = a.CreatedAt,
-                    Status = a.Status,
-                    UserArticleTags = a.userArticleUserArticleTags?.Select(tag => new UserArticleTagDTO
-                    {
-                        UserArticleTagId = tag.UserArticleTag.UserArticleTagId,
-                        Name = tag.UserArticleTag.Name
-                    }).ToList()
-                }).ToList()
-            };
+//                // Mapping UserArticles to BasicUserArticleDTO
+//                BasicUserArticles = userEntity.UserArticles?.Select(a => new GetBasicUserArticleDTO
+//                {
+//                    UserArticleId = a.UserArticleId,
+//                    Title = a.Title,
+//                    Description = a.Description,
+//                    ThumbnailImage = a.ThumbnailImage,
+//                    IsPromoted = a.IsPromoted,
+//                    UserId = a.UserId,
+//                    UserName = a.User != null ? a.User.FullName : "Unknown", // Assuming User has a Name property
+//                    CreatedAt = a.CreatedAt,
+//                    Status = a.Status,
+//                    UserArticleTags = a.userArticleUserArticleTags?.Select(tag => new UserArticleTagDTO
+//                    {
+//                        UserArticleTagId = tag.UserArticleTag.UserArticleTagId,
+//                        Name = tag.UserArticleTag.Name
+//                    }).ToList()
+//                }).ToList()
+//            };
 
-            return detailUserDTO;
-        }
+//            return detailUserDTO;
+//        }
 
-        public async Task<UpdateUserResponseDTO> UpdateUserAsync(int userId, UpdateUserDTO updateUserDTO)
-        {
-            UpdateUserResponseDTO updateUserResponseDTO = await _userRepository.UpdateUserAsync( userId,  updateUserDTO);
-            return updateUserResponseDTO;
-        }
+//        public async Task<UpdateUserResponseDTO> UpdateUserAsync(int userId, UpdateUserDTO updateUserDTO)
+//        {
+//            UpdateUserResponseDTO updateUserResponseDTO = await _userRepository.UpdateUserAsync( userId,  updateUserDTO);
+//            return updateUserResponseDTO;
+//        }
 
-        public async Task<Dictionary<string, List<string>>> ValidateUpdateUserDTO(UpdateUserDTO updateUserDTO)
-        {
-            var errors = new Dictionary<string, List<string>>();
+//        public async Task<Dictionary<string, List<string>>> ValidateUpdateUserDTO(UpdateUserDTO updateUserDTO)
+//        {
+//            var errors = new Dictionary<string, List<string>>();
 
-            //Validate CustomerId
-            //if (updateUserDTO.UserId <= 0 || updateUserDTO.UserId != UserId)
-            //{
-            //    AddError(errors, "UserId", "UserId is not provided or UserId mismatch.");
-            //}
+//            //Validate CustomerId
+//            //if (updateUserDTO.UserId <= 0 || updateUserDTO.UserId != UserId)
+//            //{
+//            //    AddError(errors, "UserId", "UserId is not provided or UserId mismatch.");
+//            //}
 
-            return errors.Count > 0 ? errors : null;
-        }
+//            return errors.Count > 0 ? errors : null;
+//        }
 
-        private static void AddError(Dictionary<string, List<string>> errors, string key, string errorMessage)
-        {
-            if (!errors.ContainsKey(key))
-            {
-                errors[key] = new List<string>();
-            }
-            errors[key].Add(errorMessage);
-        }
+//        private static void AddError(Dictionary<string, List<string>> errors, string key, string errorMessage)
+//        {
+//            if (!errors.ContainsKey(key))
+//            {
+//                errors[key] = new List<string>();
+//            }
+//            errors[key].Add(errorMessage);
+//        }
 
 
-        public async Task<UpdateAvatarResponseDTO> UploadAvatarAsync(int userId, IFormFile file)
+        public async Task<Object> UploadAvatarAsync(int userId, IFormFile file)
         {
             var user = await _userRepository.GetUserByIdAsync(userId);
             if (user == null)
             {
-                throw new FileNotFoundException("User not found.");
+                throw new Exception("User not found.");
+            }
+            var directoryPath = Path.Combine(_env.WebRootPath, "uploads/images");
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
             }
 
-                // Delete old avatar if it's not the default
-                if (!string.IsNullOrEmpty(user.PhotoUrl) && user.PhotoUrl != "/uploads/avatars/default-avatar.png")
-                {
-                    var oldFilePath = Path.Combine(_env.WebRootPath, user.PhotoUrl.TrimStart('/'));
-                    if (File.Exists(oldFilePath))
-                    {
-                        File.Delete(oldFilePath);
-                    }
-                }
-            
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                throw new Exception("Invalid file type. Only JPEG and PNG files are allowed.");
+            }
 
             // Generate new file path
-            var fileName = $"{user.UserId}{Path.GetExtension(file.FileName)}";
-            var filePath = Path.Combine(_env.WebRootPath, "uploads/avatars", fileName);
+            var fileName = $"{Guid.NewGuid().ToString()}_{Path.GetExtension(file.FileName)}";
+            var filePath = Path.Combine(_env.WebRootPath, "uploads/images", fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -148,13 +150,13 @@ namespace T2305M_API.Services.Implements
             }
 
             // Update user's AvatarUrl
-            user.PhotoUrl = $"/uploads/avatars/{fileName}";
-            await _userRepository.UpdateUserImageAsync(user);
+            user.Avatar = $"/uploads/images/{fileName}";
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
 
-            return new UpdateAvatarResponseDTO
+            return new 
             {
-                UserId = userId,
-                FilePath = user.PhotoUrl,
+                FilePath = user.Avatar,
                 Message  = "File Uploaded Successfully",
             };
         }

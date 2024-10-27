@@ -17,7 +17,7 @@ namespace T2305M_API.Controllers
         [HttpPost("upload_image")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
-            var uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "images", "userArticleContentImages");
+            var uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "images");
             if (!Directory.Exists(uploadsFolder))
             {
                 Directory.CreateDirectory(uploadsFolder);
@@ -40,7 +40,7 @@ namespace T2305M_API.Controllers
 
             // Generate a unique filename
             var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
-            var filePath = Path.Combine(_env.WebRootPath, "uploads", "images", "userArticleContentImages", uniqueFileName);
+            var filePath = Path.Combine(_env.WebRootPath, "uploads", "images", uniqueFileName);
 
             try
             {
@@ -52,7 +52,7 @@ namespace T2305M_API.Controllers
 
                 // Get the absolute URL of the uploaded image
                 var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-                var imageUrl = $"{baseUrl}/uploads/images/userArticleContentImages/{uniqueFileName}";
+                var imageUrl = $"{baseUrl}/uploads/images/{uniqueFileName}";
 
                 //return $"/uploads/images/userArticleThumbnails/{uniqueFileName}";
 

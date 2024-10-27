@@ -83,6 +83,14 @@ namespace T2305M_API.DTO.User
         public bool IsActive { get; set; }
         public string Message { get; set; }
     }
+
+    public class UpdateUserAddressDTO
+    {
+        [Required]
+        public string Address { get; set; }
+    }
+
+
     public class UserQueryParameters
     {
         const int maxPageSize = 50;

@@ -27,7 +27,7 @@ namespace T2305M_API.Services.Implements
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(_smtpSettings.Username, "History_T2305M_TEAM"),
+                From = new MailAddress(_smtpSettings.Username, "Online Banking System"),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true // Set to true if you're sending HTML content
@@ -38,13 +38,13 @@ namespace T2305M_API.Services.Implements
             await smtpClient.SendMailAsync(mailMessage);
         }
 
-        public async Task SendEmailTemplateAsync(string to, string subject, string templateFilePath, Dictionary<string, string> placeholders, List<string> ticketCodes)
+        public async Task SendEmailTemplateAsync(string to, string subject, string templateFilePath, Dictionary<string, string> placeholders)
         {
 
             string template = await File.ReadAllTextAsync(templateFilePath);
 
 
-            string body = BuildEmailBody(template, placeholders, ticketCodes);
+            string body = BuildEmailBody(template, placeholders);
 
             var smtpClient = new SmtpClient(_smtpSettings.Host)
             {
@@ -55,7 +55,7 @@ namespace T2305M_API.Services.Implements
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(_smtpSettings.Username, "History_T2305M_TEAM"),
+                From = new MailAddress(_smtpSettings.Username, "Online Banking System"),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true // Set to true if you're sending HTML content
@@ -66,7 +66,7 @@ namespace T2305M_API.Services.Implements
             await smtpClient.SendMailAsync(mailMessage);
         }
 
-        private string BuildEmailBody(string template, Dictionary<string, string> placeholders, List<string> ticketCodes)
+        private string BuildEmailBody(string template, Dictionary<string, string> placeholders)
         {
 
             // Replace placeholders with actual values
@@ -74,16 +74,6 @@ namespace T2305M_API.Services.Implements
             {
                 template = template.Replace(placeholder.Key, placeholder.Value);
             }
-
-            // Build the ticket codes as an HTML list
-            var sb = new StringBuilder();
-            foreach (var code in ticketCodes)
-            {
-                sb.AppendLine($"<b>{code}</b><br>");
-            }
-
-            // Insert the ticket codes into the template
-            template = template.Replace("{ticketCodes}", sb.ToString());
 
             return template;
         }
