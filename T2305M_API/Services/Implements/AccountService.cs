@@ -41,7 +41,7 @@ public class AccountService : IAccountService
             {
                 AccountNumber = account.AccountNumber,
                 Balance = account.Balance,
-                isDefault = account.isDefault,
+                isDefault = account.IsDefault,
                 Status = account.Status,
             });
         }
@@ -67,7 +67,12 @@ public class AccountService : IAccountService
         return existingAccount;
     }
 
+    public async Task<bool> CheckAccountBalance(CheckBalance checkBalance)
+    {
+        var existingAccount = await _context.Accounts.FirstOrDefaultAsync(u => u.AccountNumber == checkBalance.AccountNumber);
 
+        return existingAccount.Balance >= checkBalance.MoneyAmount ;
+    }
 
     public async Task<GetDetailAccountDTO> GetDetailAccountDTOAsync(string accountNumber)
     {
@@ -84,10 +89,9 @@ public class AccountService : IAccountService
             AccountId = existingAccount.AccountId,
             AccountNumber = existingAccount.AccountNumber,
             Balance = existingAccount.Balance,
-            isDefault = existingAccount.isDefault,
-            Status = existingAccount.Status,
-            //Last10Transactions = 
-        }
+            isDefault = existingAccount.IsDefault,
+            Status = existingAccount.Status
+        };
 
         return detailAccountDTO;
     }

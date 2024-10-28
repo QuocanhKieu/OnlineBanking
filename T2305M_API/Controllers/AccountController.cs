@@ -28,20 +28,22 @@ namespace T2305M_API.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IAccountRepository _accountRepository;
+        private readonly ITransactionRepository _transactionRepository;
         private readonly T2305mApiContext _context;
 
         public AccountController(
             IAccountService accountService,
             IAccountRepository accountRepository,
+            ITransactionRepository transactionRepository,
             T2305mApiContext context)
         {
             _accountService = accountService;
             _accountRepository = accountRepository;
+            _transactionRepository = transactionRepository;
             _context = context;
-
         }
 
-        [HttpGet("List-User-Accounts")]
+        [HttpGet("list-user-accounts")]
         public async Task<IActionResult> ListUserAccounts(AccountQueryParameters accountQueryParameters)
         {
             try
@@ -66,7 +68,7 @@ namespace T2305M_API.Controllers
             }
         }
 
-        [HttpPost("Create-Account")]
+        [HttpPost("create-account")]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDTO createAccountDTO)
         {
             try
@@ -101,7 +103,7 @@ namespace T2305M_API.Controllers
             }
         }
 
-        [HttpGet("Check-DuplicateAccount")]
+        [HttpGet("check-existing-account")]
         public async Task<IActionResult> CheckDuplicateAccount(CheckDuplicateAccountDTO checkDuplicateAccountDTO)
         {
             try
@@ -116,7 +118,7 @@ namespace T2305M_API.Controllers
                 }
                 return Ok(new
                 {
-                    message = "AccountNumber is qualified."
+                    message = " This AccountNumber does not exist."
                 });
             }
             catch (Exception ex)
@@ -125,10 +127,7 @@ namespace T2305M_API.Controllers
             }
         }
 
-
-
-
-        [HttpGet("{accountNumber}")]
+        [HttpGet("get-detail-account/{accountNumber}")]
         public async Task<ActionResult<GetDetailAccountDTO>> GetDetailAccountDTO(string accountNumber)
         {
             try
@@ -144,6 +143,30 @@ namespace T2305M_API.Controllers
                 }
                 //return Ok(new APIResponse<GetDetailAccountDTO>(detailAccountDTO, "Retrieved paginated basic Books successfully."));
                 return Ok(detailAccountDTO); // Return the DTO
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
+
+        [HttpGet("check-account-balance")]
+        public async Task<IActionResult> CheckAccountBalance(CheckBalance checkBalance)
+        {
+            try
+            {
+                bool response = await _accountService.CheckAccountBalance(checkBalance);
+                if (!response)
+                {
+                    return BadRequest(new
+                    {
+                        message = "Balance not enough."
+                    });
+                }
+                return Ok(new
+                {
+                    message = "Balance is enough. you Can continue make money transfer"
+                });
             }
             catch (Exception ex)
             {

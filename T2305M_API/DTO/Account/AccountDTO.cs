@@ -21,7 +21,6 @@ namespace T2305M_API.DTO.Account
         public decimal Balance { get; set; }
         public string Status { get; set; }
         public bool isDefault { get; set; }
-        public List<Transaction>? Last10Transactions { get; set; }
     }
  
     public class CheckToAccountNumber

@@ -151,7 +151,7 @@ namespace T2305M_API.Controllers
                 {
                     User = user, // Assuming there's a relationship between User and Account
                     AccountNumber = model.AccountNumber,
-                    isDefault = true
+                    IsDefault = true
                 };
                 // Add and save both the User and Account entities in a single transaction
                 await _context.Users.AddAsync(user);

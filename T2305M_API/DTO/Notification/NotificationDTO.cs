@@ -1,25 +1,21 @@
-﻿namespace T2305M_API.DTO.Notification
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace T2305M_API.DTO.Notification
 {
     public class GetBasicNotificationDTO
     {
-        public int UserNotificationId { get; set; }
-        public string Message { get; set; }
+        public int NotificationId { get; set; }
+        public string Content { get; set; }
         public bool IsRead { get; set; } = false; // Default to unread
         public DateTime CreatedAt { get; set; } // Default to the current time
     }
 
     public class CreateBasicNotificationDTO
     {
-        public string Message { get; set; }
+        public int UserId { get; set; }
+        [Required]
+        public string Content { get; set; }
     }
-    public class CreateBasicNotificationResponseDTO
-    {
-        public int UserNotificationId { get; set; }
-        public string Message { get; set; }
-    }
-
-
-
     public class NotificationQueryParameters
     {
         const int maxPageSize = 50;

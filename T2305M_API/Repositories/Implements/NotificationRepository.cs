@@ -5,40 +5,49 @@ using System.Linq;
 using System.Threading.Tasks;
 using T2305M_API.DTO.Notification;
 using T2305M_API.Entities;
-using T2305M_API.Entities.Notification;
 using T2305M_API.Models;
 
 namespace T2305M_API.Repositories.Implements
 {
-    public class UserNotificationRepository : IUserNotificationRepository
+    public class NotificationRepository : INotificationRepository
     {
         private readonly T2305mApiContext _context;
         private readonly IMapper _mapper; // For mapping DTOs to entities and vice versa
 
-        public UserNotificationRepository(T2305mApiContext context, IMapper mapper)
+        public NotificationRepository(T2305mApiContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<CreateBasicNotificationResponseDTO> CreateNotificationAsync(CreateBasicNotificationDTO createBasicNotificationDTO, int userId)
+        public async Task<Notification> CreateNotificationAsync(CreateBasicNotificationDTO createBasicNotificationDTO)
         {
-            UserNotification notification = _mapper.Map<UserNotification>(createBasicNotificationDTO); // Map DTO to entity
-            notification.UserId = userId; // Set the UserId to associate the notification with the user
-
-            await _context.UserNotification.AddAsync(notification);
-            await _context.SaveChangesAsync();
-
-            return new CreateBasicNotificationResponseDTO
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                UserNotificationId = notification.UserNotificationId,
-                Message = "Create Notification successfully",
-            }; // Return the created notification as a DTO
+                try
+                {
+                    var notification = new Notification
+                    {
+                        Content = createBasicNotificationDTO.Content,
+                        UserId = createBasicNotificationDTO.UserId,
+                    };
+
+                    await _context.Notifications.AddAsync(notification);
+                    await _context.SaveChangesAsync();
+
+                    return notification;
+                }
+                catch (Exception ex) // Catch other exceptions
+                {
+                    await transaction.RollbackAsync(); // Rollback the transaction
+                    throw ex; // Rethrow the exception after rollback
+                }
+            }
         }
 
-        public async Task<PaginatedResult<GetBasicNotificationDTO>> GetUserNotificationsAsync(NotificationQueryParameters queryParameters)
+        public async Task<PaginatedResult<GetBasicNotificationDTO>> GetNotificationsAsync(NotificationQueryParameters queryParameters)
         {
-            var query = _context.UserNotification.Include(n => n.User).AsQueryable(); // Create a queryable for flexibility
+            var query = _context.Notifications.AsQueryable(); // Create a queryable for flexibility
 
             // Apply filters based on the query parameters
             if (queryParameters.UserId > 0)
@@ -48,19 +57,13 @@ namespace T2305M_API.Repositories.Implements
 
             if (queryParameters.IsRead.HasValue)
             {
-                query = query.Where(n => n.IsRead == queryParameters.IsRead.Value);
+                query = query.Where(n => n.IsRead == queryParameters.IsRead);
             }
 
             // Sorting notifications
             bool isDescending = queryParameters.SortOrder?.ToLower() == "desc";
             switch (queryParameters.SortColumn?.ToLower())
             {
-                case "message":
-                    query = isDescending ? query.OrderByDescending(n => n.Message) : query.OrderBy(n => n.Message);
-                    break;
-                case "createdat":
-                    query = isDescending ? query.OrderByDescending(n => n.CreatedAt) : query.OrderBy(n => n.CreatedAt);
-                    break;
                 default:
                     query = isDescending ? query.OrderByDescending(n => n.CreatedAt) : query.OrderBy(n => n.CreatedAt); // Default to sorting by CreatedAt
                     break;
@@ -88,7 +91,7 @@ namespace T2305M_API.Repositories.Implements
 
         public async Task MarkAsReadAsync(int notificationId)
         {
-            var notification = await _context.UserNotification.FindAsync(notificationId);
+            var notification = await _context.Notifications.FindAsync(notificationId);
             if (notification != null)
             {
                 notification.IsRead = true;

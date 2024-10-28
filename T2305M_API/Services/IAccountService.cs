@@ -9,6 +9,7 @@ namespace T2305M_API.Services
         Task<PaginatedResult<GetBasicAccountDTO>> GetBasicAccountsAsync(AccountQueryParameters queryParameters);
         Task<Account> CheckDuplicateAccountAsync(CheckDuplicateAccountDTO checkDuplicateAccountDTO);
         Task<GetDetailAccountDTO> GetDetailAccountDTOAsync(string accountNumber);
+        Task<bool> CheckAccountBalance(CheckBalance checkBalance);
 
 
     }
