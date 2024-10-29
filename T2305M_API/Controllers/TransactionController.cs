@@ -6,16 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Net;
 using System.Security.Claims;
-using T2305M_API.CustomException;
-using T2305M_API.DTO.History;
-using T2305M_API.DTO.Transaction;
 using T2305M_API.Entities;
 using T2305M_API.Models;
 using T2305M_API.Services;
 using T2305M_API.Services.Implements;
 using T2305M_API.Repositories.Implements;
 using T2305M_API.Repositories;
-using T2305M_API.DTO.Transaction;
 using T2305M_API.DTO.Transaction;
 
 namespace T2305M_API.Controllers
@@ -41,7 +37,7 @@ namespace T2305M_API.Controllers
 
         }
 
-        [HttpGet("List-User-Transactions")]
+        [HttpGet("List-Account-Transactions")]
         public async Task<IActionResult> ListUserTransactions(TransactionQueryParameters transactionQueryParameters)
         {
             try
@@ -53,7 +49,7 @@ namespace T2305M_API.Controllers
                 }
 
                 int userId = int.Parse(userIdClaim);
-                transactionQueryParameters.Userid = userId;
+                //transactionQueryParameters.Userid = userId;
                 var paginatedResult = await _transactionService.GetBasicTransactionsAsync(transactionQueryParameters);
                 return Ok(new
                 {
@@ -102,28 +98,28 @@ namespace T2305M_API.Controllers
         //}
 
 
-        [HttpGet("{transactionId}")]
-        public async Task<ActionResult<GetBasicTransactionDTO>> GetDetailTransactionDTO(int transactionId)
-        {
-            try
-            {
-                var detailTransactionDTO = await _transactionService.GetDetailTransactionDTOAsync(transactionId);
-                if (detailTransactionDTO == null)
-                {
-                    return NotFound(
-                        new
-                        {
-                            message = "DetailTransaction not found."
-                        });
-                }
-                //return Ok(new APIResponse<GetDetailTransactionDTO>(detailTransactionDTO, "Retrieved paginated basic Books successfully."));
-                return Ok(detailTransactionDTO); // Return the DTO
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
-            }
-        }
+        //[HttpGet("{transactionId}")]
+        //public async Task<ActionResult<GetBasicTransactionDTO>> GetDetailTransactionDTO(int transactionId)
+        //{
+        //    try
+        //    {
+        //        var detailTransactionDTO = await _transactionService.GetDetailTransactionDTOAsync(transactionId);
+        //        if (detailTransactionDTO == null)
+        //        {
+        //            return NotFound(
+        //                new
+        //                {
+        //                    message = "DetailTransaction not found."
+        //                });
+        //        }
+        //        //return Ok(new APIResponse<GetDetailTransactionDTO>(detailTransactionDTO, "Retrieved paginated basic Books successfully."));
+        //        return Ok(detailTransactionDTO); // Return the DTO
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+        //    }
+        //}
 
     }
 }

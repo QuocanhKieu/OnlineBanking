@@ -7,23 +7,25 @@ namespace T2305M_API.Entities
     {
         [Key]
         public int TransactionId { get; set; } // auto-increment
-        public int UserId { get; set; }// transaction của người nào
-        public string TransactionType { get; set; } // INFLOW, OUTFLOW//tùy vào context
-        public int FromAccountId { get; set; }
-        public int? ToAccountId { get; set; }
-        public string FromAccountNumber { get; set; }
-        public string? ToAccountNumber { get; set; }
+        public int SourceAccountId { get; set; }
+        public int? DesAccountId { get; set; }
+        public string TransactionType{ get; set; } // BANKTRANSFER, CHECKPAYMENT
+        public string SourceAccountNumber { get; set; }
+        public string? DesAccountNumber { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public decimal BalanceAfter { get; set; }
+        public decimal SourceAccountBalanceAfter { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? DesAccountBalanceAfter { get; set; }
+
         public DateTime TransactionDate { get; set; } = DateTime.UtcNow;
-        public string? Description { get; set; }
-        public string Status { get; set; } //SUCESS, FAILED
+        public string? TransactionDescription { get; set; }
+        public string? TransactionMessage { get; set; }
+
 
         // Navigation property
-        public virtual Account? FromAccount { get; set; }
-        public virtual Account? ToAccount { get; set; }
-        public virtual User? User { get; set; }// chủ sở hữu// xác định transaction này nhất định phải có dù thất bại hay thành công
+        public virtual Account? SourceAccount { get; set; }
+        public virtual Account? DesAccount { get; set; }
     }
 }

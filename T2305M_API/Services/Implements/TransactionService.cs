@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis.FlowAnalysis;
-using T2305M_API.DTO.Culture;
 using T2305M_API.DTO.Transaction;
 using T2305M_API.Entities;
 using T2305M_API.Models;
@@ -12,19 +11,16 @@ using T2305M_API.DTO.Transaction;
 public class TransactionService : ITransactionService
 {
     private readonly ITransactionRepository _transactionRepository;
-    private readonly ICreatorRepository _creatorRepository;
     private readonly IWebHostEnvironment _env;
     private readonly T2305mApiContext _context;
 
 
     public TransactionService(ITransactionRepository transactionRepository,
         IWebHostEnvironment env,
-        ICreatorRepository creatorRepository,
         T2305mApiContext context)
     {
         _transactionRepository = transactionRepository;
         _env = env;
-        _creatorRepository = creatorRepository;
         _context = context;
 
     }
@@ -39,17 +35,15 @@ public class TransactionService : ITransactionService
         {
             basicTransactionDTOs.Add(new GetBasicTransactionDTO
             {
-                TransactionId = transaction.TransactionId,
                 Amount = transaction.Amount,
-                BalanceAfter = transaction.BalanceAfter,
-                Description = transaction.Description,
-                FromAccountNumber = transaction.FromAccountNumber,
-                Status = transaction.Status,
-                ToAccountNumber = transaction.ToAccountNumber,
+                BalanceAfter = queryParameters.AccountNumber==transaction.SourceAccountNumber?transaction.SourceAccountBalanceAfter:transaction.DesAccountBalanceAfter,
+                TransactionDescription = transaction.TransactionDescription,
+                SourceAccountNumber = transaction.SourceAccountNumber,
+                DesAccountNumber = transaction.DesAccountNumber,
                 TransactionDate = transaction.TransactionDate,
                 TransactionType = transaction.TransactionType,
-                FromUserName = transaction.FromAccount.User.Name,
-                ToUserName = transaction.ToAccount.User.Name
+                SourceUserName = transaction.SourceAccount.User.Name,
+                DesUserName = transaction.DesAccount.User.Name
             });
         }
         // Calculate total pages
@@ -67,32 +61,30 @@ public class TransactionService : ITransactionService
         };
     }
 
-    public async Task<GetBasicTransactionDTO> GetDetailTransactionDTOAsync(int transactionId)
-    {
-        var existingTransaction = await _context.Transactions.FirstOrDefaultAsync(u => u.TransactionId == transactionId);
+    //public async Task<GetBasicTransactionDTO> GetDetailTransactionDTOAsync(int transactionId)
+    //{
+    //    var transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.TransactionId == transactionId);
 
-        if (existingTransaction == null)
-        {
-            return null; // Or throw an appropriate exception
-        }
+    //    if (transaction == null)
+    //    {
+    //        return null; // Or throw an appropriate exception
+    //    }
 
-        var detailTransactionDTO = new GetBasicTransactionDTO
-        {
-            TransactionId = existingTransaction.TransactionId,
-            Amount = existingTransaction.Amount,
-            BalanceAfter = existingTransaction.BalanceAfter,
-            Description = existingTransaction.Description,
-            FromAccountNumber = existingTransaction.FromAccountNumber,
-            Status = existingTransaction.Status,
-            ToAccountNumber = existingTransaction.ToAccountNumber,
-            TransactionDate = existingTransaction.TransactionDate,
-            TransactionType = existingTransaction.TransactionType,
-            FromUserName = existingTransaction.FromAccount.User.Name,
-            ToUserName = existingTransaction.ToAccount.User.Name
-        };
+    //    var detailTransactionDTO = new GetBasicTransactionDTO
+    //    {
+    //        Amount = transaction.Amount,
+    //        BalanceAfter = transaction..AccountNumber == transaction.SourceAccountNumber ? transaction.SourceAccountBalanceAfter : transaction.DesAccountBalanceAfter,
+    //        TransactionDescription = transaction.TransactionDescription,
+    //        SourceAccountNumber = transaction.SourceAccountNumber,
+    //        DesAccountNumber = transaction.DesAccountNumber,
+    //        TransactionDate = transaction.TransactionDate,
+    //        TransactionType = transaction.TransactionType,
+    //        SourceUserName = transaction.SourceAccount.User.Name,
+    //        DesUserName = transaction.DesAccount.User.Name
+    //    };
 
-        return detailTransactionDTO;
-    }
+    //    return detailTransactionDTO;
+    //}
 
 
 }

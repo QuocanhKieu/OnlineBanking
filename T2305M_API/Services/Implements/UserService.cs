@@ -2,11 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using T2305M_API.DTO.Event;
-using T2305M_API.DTO.History;
 using T2305M_API.DTO.User;
-using T2305M_API.DTO.User;
-using T2305M_API.DTO.UserArticle;
 using T2305M_API.Entities;
 using T2305M_API.Repositories;
 using T2305M_API.Repositories.Implements;
@@ -21,7 +17,7 @@ namespace T2305M_API.Services.Implements
         private readonly IMapper _mapper;
 
 
-        public UserService(T2305mApiContext context, IUserRepository userRepository, IWebHostEnvironment env, ICreatorRepository creatorRepository, IMapper mapper)
+        public UserService(T2305mApiContext context, IUserRepository userRepository, IWebHostEnvironment env,  IMapper mapper)
         {
             _userRepository = userRepository;
             _env = env;

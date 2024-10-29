@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis.FlowAnalysis;
-using T2305M_API.DTO.Culture;
 using T2305M_API.DTO.Account;
 using T2305M_API.Entities;
 using T2305M_API.Models;
@@ -12,19 +11,16 @@ using T2305M_API.DTO.Account;
 public class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
-    private readonly ICreatorRepository _creatorRepository;
     private readonly IWebHostEnvironment _env;
     private readonly T2305mApiContext _context;
 
 
     public AccountService(IAccountRepository accountRepository,
         IWebHostEnvironment env,
-        ICreatorRepository creatorRepository,
         T2305mApiContext context)
     {
         _accountRepository = accountRepository;
         _env = env;
-        _creatorRepository = creatorRepository;
         _context = context;
 
     }

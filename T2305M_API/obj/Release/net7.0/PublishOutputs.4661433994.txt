@@ -1,7 +1,6 @@
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\T2305M_API.exe
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\appsettings.Development.json
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\appsettings.json
-C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\wwwroot\content\Event\The_Louvre.html
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\T2305M_API.dll
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\T2305M_API.runtimeconfig.json
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\T2305M_API.pdb
@@ -13,6 +12,7 @@ C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Castle.Core.dll
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Humanizer.dll
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll

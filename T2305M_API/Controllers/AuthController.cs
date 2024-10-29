@@ -184,7 +184,7 @@ namespace T2305M_API.Controllers
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
             // Confirmation route
-            var confirmRoute = "/confirm-email";
+            var confirmRoute = "/api/auth/confirm-email";
 
             // Construct the full confirmation URL
             var confirmationUrl = $"{baseUrl}{confirmRoute}?email={email}&token={token}";
@@ -226,7 +226,7 @@ namespace T2305M_API.Controllers
             // Validate the user ID and token
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-            if (user == null || user.PasswordResetToken != token)
+            if (user == null || user.EmailConfirmationToken != token)
             {
                 return BadRequest("Invalid confirmation link.");
             }
@@ -252,7 +252,7 @@ namespace T2305M_API.Controllers
                         message = "Invalid input",
                     });
                 User user = _context.Users.Where(
-                        u => u.CustomerId.Equals(model.CustomerId) || u.Email.Equals(model.CustomerId) || u.Phone.Equals(model.CustomerId)).First();
+                        u => u.CustomerId.Equals(model.CustomerId) || u.Email.Equals(model.CustomerId) || u.Phone.Equals(model.CustomerId)).FirstOrDefault();
                 if (user == null)
                     return Unauthorized(new
                     {
@@ -383,7 +383,7 @@ namespace T2305M_API.Controllers
             //var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
             var baseUrl = _config["ClientUrl"]; // Get the frontend base URL from configuration
-            var resetPasswordRoute = "/change-password";
+            var resetPasswordRoute = "/api/auth/change-password";
             var resetLink = $"{baseUrl}{resetPasswordRoute}?token={token}";
 
             // Email content

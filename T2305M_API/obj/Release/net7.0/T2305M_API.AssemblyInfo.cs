@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("T2305M_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5486d75305229967e50c1195359dd75e2cb1225e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+833ca139e9ec3bbe35e9fd2536999a9d67b0e880")]
 [assembly: System.Reflection.AssemblyProductAttribute("T2305M_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("T2305M_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

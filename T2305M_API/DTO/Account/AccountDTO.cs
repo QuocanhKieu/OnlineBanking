@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using T2305M_API.DTO.Event;
 using T2305M_API.Entities;
 
 
@@ -59,11 +58,7 @@ namespace T2305M_API.DTO.Account
         [MaxLength (8)]
         public string TransPassword { get; set; } // 8 pin password
     }
-    public class UpdateAccountAddressDTO
-    {
-        [Required]
-        public string Address { get; set; }
-    }
+
     public class CreateAccountDTO
     {
         [Required]

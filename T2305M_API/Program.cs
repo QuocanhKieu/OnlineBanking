@@ -9,8 +9,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using T2305M_API.DTO.UserArticle.Requirements;
-using T2305M_API.DTO.UserArticle.Handlers;
 using T2305M_API.Models;
 using T2305M_API.DTO.AutoMapping;
 
@@ -51,14 +49,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Add authorize policy
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("UpdateUserArticlePolicy", policy => policy.AddRequirements(
-        new UpdateUserArticleRequirement()));
-});
-// Add authorize handler, a handler can do without a policy name 
-builder.Services.AddSingleton<IAuthorizationHandler,
-        UpdateUserArticleHandler>();
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("UpdateUserArticlePolicy", policy => policy.AddRequirements(
+//        new UpdateUserArticleRequirement()));
+//});
+//// Add authorize handler, a handler can do without a policy name 
+//builder.Services.AddSingleton<IAuthorizationHandler,
+//        UpdateUserArticleHandler>();
 
 //****************
 // connect db
@@ -85,29 +83,18 @@ builder.Services.AddAutoMapper(typeof(MappingProfile)); // This will scan for al
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ICultureRepository, CultureRepository>();
-builder.Services.AddScoped<ICultureService, CultureService>();
-builder.Services.AddScoped<IEventRepository, EventRepository>();
-builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<SearchServiceImpl>();
-builder.Services.AddScoped<IHistoryRepository, HistoryRepository>();
-builder.Services.AddScoped<IHistoryService, HistoryService>();
-builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<ICreatorRepository, CreatorRepository>();
-builder.Services.AddScoped<IUserEventRepository, UserEventRepository>();
+//builder.Services.AddScoped<SearchServiceImpl>();
+
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserArticleService, UserArticleService>();
-builder.Services.AddScoped<IUserArticleService, UserArticleService>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserEventRepository, UserEventRepository>();
-builder.Services.AddScoped<IUserArticleRepository, UserArticleRepository>();
-builder.Services.AddScoped<IUserNotificationRepository, UserNotificationRepository>();
-builder.Services.AddScoped<IImageRepository, ImageRepository>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-builder.Services.AddScoped<IEventTicketRepository, EventTicketRepository>();
-builder.Services.AddScoped<IPaypalService, PaypalService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<NotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<EmailService>();
+
 
 // Register EmailService
 builder.Services.AddTransient<EmailService>();
@@ -126,20 +113,20 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetService<T2305mApiContext>();
+//using (var scope = app.Services.CreateScope())
+//{
+//    var context = scope.ServiceProvider.GetService<T2305mApiContext>();
 
-    if (context != null)
-    {
-        DatabaseSeeder.Seed(context);
-    }
-    else
-    {
-        // Log an error or handle the situation where the context is null
-        throw new InvalidOperationException("T2305mApiContext is not available.");
-    }
-}
+//    if (context != null)
+//    {
+//        DatabaseSeeder.Seed(context);
+//    }
+//    else
+//    {
+//        // Log an error or handle the situation where the context is null
+//        throw new InvalidOperationException("T2305mApiContext is not available.");
+//    }
+//}
 
 
 app.Run();

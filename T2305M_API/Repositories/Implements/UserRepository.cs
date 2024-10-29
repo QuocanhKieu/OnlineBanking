@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using T2305M_API.CustomException;
-using T2305M_API.DTO.Event;
 using T2305M_API.DTO.User;
 using T2305M_API.DTO.User;
 using T2305M_API.Entities;

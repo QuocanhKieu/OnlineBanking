@@ -260,3 +260,4 @@ C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\AutoMapper.dll
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\Castle.Core.dll
 C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\Microsoft.EntityFrameworkCore.Proxies.dll
+C:\Users\KieuQuocAnh\Desktop\MouseWithoutBorders\.Net-API_BigAssignment\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\Microsoft.AspNetCore.JsonPatch.dll

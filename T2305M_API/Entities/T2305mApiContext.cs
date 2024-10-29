@@ -21,6 +21,10 @@ public partial class T2305mApiContext : DbContext
     public DbSet<Account> Accounts { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Notification> Notifications { get; set; }
+    public DbSet<Check> Checks { get; set; }
+    public DbSet<CheckBook> CheckBooks { get; set; }
+    public DbSet<ServiceRequest> ServiceRequests { get; set; }
+    public DbSet<Message> Messages { get; set; }
 
 
 
@@ -30,6 +34,22 @@ public partial class T2305mApiContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        // Define the relationship for TransactionsFrom (Outgoing transactions)
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.SourceAccount)
+            .WithMany(a => a.TransactionsFrom)
+            .HasForeignKey(t => t.SourceAccountId)
+            .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes if needed
+
+        // Define the relationship for TransactionsTo (Incoming transactions)
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.DesAccount)
+            .WithMany(a => a.TransactionsTo)
+            .HasForeignKey(t => t.DesAccountId)
+            .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes if needed
+
+        base.OnModelCreating(modelBuilder);
 
     }
 

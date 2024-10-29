@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Net;
 using System.Security.Claims;
-using T2305M_API.CustomException;
-using T2305M_API.DTO.History;
 using T2305M_API.DTO.Account;
 using T2305M_API.Entities;
 using T2305M_API.Models;
@@ -48,6 +46,14 @@ namespace T2305M_API.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Please input valid user information."
+                    });
+                }
                 var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (userIdClaim == null)
                 {
@@ -73,6 +79,14 @@ namespace T2305M_API.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Please input valid user information."
+                    });
+                }
                 var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (userIdClaim == null)
                 {
@@ -108,6 +122,14 @@ namespace T2305M_API.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Please input valid user information."
+                    });
+                }
                 var existingAccount = await _accountService.CheckDuplicateAccountAsync(checkDuplicateAccountDTO);
                 if (existingAccount != null)
                 {
@@ -132,6 +154,14 @@ namespace T2305M_API.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Please input valid user information."
+                    });
+                }
                 var detailAccountDTO = await _accountService.GetDetailAccountDTOAsync(accountNumber.Trim());
                 if (detailAccountDTO == null)
                 {
@@ -155,6 +185,14 @@ namespace T2305M_API.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Please input valid user information."
+                    });
+                }
                 bool response = await _accountService.CheckAccountBalance(checkBalance);
                 if (!response)
                 {
@@ -167,6 +205,51 @@ namespace T2305M_API.Controllers
                 {
                     message = "Balance is enough. you Can continue make money transfer"
                 });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
+
+        [HttpPost("make-money-transfer")]
+        public async Task<IActionResult> MakeMoneyTransfer([FromBody] CreateAccountDTO createAccountDTO)
+        {
+            try
+            {
+
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
+
+                int userId = int.Parse(userIdClaim);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Please input valid user information."
+                    });
+                }
+
+                var existingAccount = await _accountService.CheckDuplicateAccountAsync(new CheckDuplicateAccountDTO { AccountNumber = createAccountDTO.AccountNumber });
+                if (existingAccount != null)
+                {
+                    return BadRequest(new
+                    {
+                        message = "AccountNumber is already registered."
+                    });
+                }
+
+                await _accountRepository.CreateAccountAsync(createAccountDTO, userId);
+                return Ok(new
+                {
+                    message = "AccountNumber Created Successfully."
+                });
+
             }
             catch (Exception ex)
             {

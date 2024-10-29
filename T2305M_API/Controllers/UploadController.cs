@@ -14,7 +14,7 @@ namespace T2305M_API.Controllers
             _env = env;
         }
 
-        [HttpPost("upload_image")]
+        [HttpPost("upload-image")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
             var uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "images");

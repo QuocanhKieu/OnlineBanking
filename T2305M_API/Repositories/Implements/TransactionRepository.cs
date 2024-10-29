@@ -21,23 +21,19 @@ public class TransactionRepository : ITransactionRepository
         IQueryable<Transaction> query = _context.Transactions;
 
         // Filter by IsRecommended
-        if (queryParameters.Userid > 0)
-        {
-            query = query.Where(a => a.UserId == queryParameters.Userid);
-        }
         if (!string.IsNullOrEmpty(queryParameters.AccountNumber))
         {
-            query = query.Where(a => a.FromAccountNumber == queryParameters.AccountNumber.Trim()|| a.ToAccountNumber == queryParameters.AccountNumber.Trim());
+            query = query.Where(a => a.SourceAccountNumber == queryParameters.AccountNumber.Trim()|| a.DesAccountNumber == queryParameters.AccountNumber.Trim());
         }
         var searchTerm = queryParameters.SearchTerm?.ToLower().Trim() ?? "";
         // Filter by search term (title, author, etc.)
-        if (!string.IsNullOrEmpty(searchTerm))
-        {
-            query = query.Where(a =>
-                (a.Description ?? "").ToLower().Contains(searchTerm)||
-                (a.User.Name.ToLower().Contains(searchTerm))
-            );
-        }
+        //if (!string.IsNullOrEmpty(searchTerm))
+        //{
+        //    query = query.Where(a =>
+        //        (a.Description ?? "").ToLower().Contains(searchTerm)||
+        //        (a.User.Name.ToLower().Contains(searchTerm))
+        //    );
+        //}
         var transactionType = queryParameters.SearchTerm?.ToUpper().Trim() ?? "";
 
         if (!string.IsNullOrEmpty(transactionType))
@@ -80,15 +76,15 @@ public class TransactionRepository : ITransactionRepository
                 var newTransaction = new Transaction
                 {
                    Amount = createTransactionDTO.Amount,
-                   BalanceAfter  = createTransactionDTO.BalanceAfter,
-                   Description = createTransactionDTO?.Description,
-                   ToAccountNumber = createTransactionDTO.ToAccountNumber,
-                   FromAccountNumber = createTransactionDTO.FromAccountNumber,
+                   TransactionDescription = createTransactionDTO?.TransactionDescription,
+                    DesAccountNumber = createTransactionDTO.DesAccountNumber,
+                   SourceAccountNumber = createTransactionDTO.SourceAccountNumber,
                    TransactionType = createTransactionDTO.TransactionType,
-                   UserId = createTransactionDTO.UserId,
-                   Status = createTransactionDTO.Status,
-                   FromAccountId = createTransactionDTO.FromAccountId,
-                   ToAccountId = createTransactionDTO.ToAccountId,
+                   SourceAccountId = createTransactionDTO.SourceAccountId,
+                   DesAccountId = createTransactionDTO.DesAccountId,
+                   DesAccountBalanceAfter = createTransactionDTO.DesAccountBalanceAfter,
+                   SourceAccountBalanceAfter = createTransactionDTO.SourceAccountBalanceAfter,
+
                 };
 
                 // Add the new Transaction to the DbSet
