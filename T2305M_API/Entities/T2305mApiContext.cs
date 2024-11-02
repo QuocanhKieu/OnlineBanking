@@ -49,6 +49,7 @@ public partial class T2305mApiContext : DbContext
             .HasForeignKey(t => t.DesAccountId)
             .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes if needed
 
+
         base.OnModelCreating(modelBuilder);
 
     }

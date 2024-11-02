@@ -27,6 +27,9 @@ public class TransactionService : ITransactionService
 
     public async Task<PaginatedResult<GetBasicTransactionDTO>> GetBasicTransactionsAsync(TransactionQueryParameters queryParameters)
     {
+        var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber == queryParameters.AccountNumber);
+        if (existingAccount == null) throw new Exception("Account Not Found");
+
         var (data, totalItems) = await _transactionRepository.GetTransactionsAsync(queryParameters);
 
         var basicTransactionDTOs = new List<GetBasicTransactionDTO>();
@@ -43,7 +46,10 @@ public class TransactionService : ITransactionService
                 TransactionDate = transaction.TransactionDate,
                 TransactionType = transaction.TransactionType,
                 SourceUserName = transaction.SourceAccount.User.Name,
-                DesUserName = transaction.DesAccount.User.Name
+                DesUserName = transaction.DesAccount.User.Name,
+                DesAccountId = transaction.DesAccountId,
+                SourceAccountId = transaction.SourceAccountId
+
             });
         }
         // Calculate total pages

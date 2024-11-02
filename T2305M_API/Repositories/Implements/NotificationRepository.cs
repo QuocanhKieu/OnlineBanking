@@ -34,13 +34,14 @@ namespace T2305M_API.Repositories.Implements
 
                     await _context.Notifications.AddAsync(notification);
                     await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
 
                     return notification;
                 }
                 catch (Exception ex) // Catch other exceptions
                 {
-                    await transaction.RollbackAsync(); // Rollback the transaction
-                    throw ex; // Rethrow the exception after rollback
+                    throw; // Rethrow the exception after rollback
                 }
             }
         }
@@ -99,5 +100,7 @@ namespace T2305M_API.Repositories.Implements
             }
             
         }
+        
+
     }
 }

@@ -15,7 +15,7 @@ namespace T2305M_API.DTO.Account
 
     public class GetDetailAccountDTO
     {
-        public int AccountId { get; set; }
+        //public int AccountId { get; set; }
         public string AccountNumber { get; set; }
         public decimal Balance { get; set; }
         public string Status { get; set; }
@@ -41,28 +41,34 @@ namespace T2305M_API.DTO.Account
 
     }
 
+
+
     public class MoneyTransfer
     {
         [Required]
-        [MaxLength(14)]
-        public string FromAccountNumber { get; set; }
-        [Required]
-        [MaxLength(14)]
-        public string ToAccountNumber { get; set; }
+        [RegularExpression(@"^\d{10,14}$", ErrorMessage = "Account number must be between 10 and 14 numeric digits.")]
+        public string SourceAccountNumber { get; set; }
+
+        [RegularExpression(@"^\d{10,14}$", ErrorMessage = "Account number must be between 10 and 14 numeric digits.")]
+        public string? DesAccountNumber { get; set; }
 
         [Required]
         [Range(0.01, (double)decimal.MaxValue, ErrorMessage = "Money Amount must be greater than zero.")]
         public decimal MoneyAmount { get; set; }
 
         [Required]
-        [MaxLength (8)]
-        public string TransPassword { get; set; } // 8 pin password
+        [RegularExpression(@"^\d{8}$", ErrorMessage = "Transaction password must be exactly 8 numeric digits.")]
+        public string TransPassword { get; set; } // 8-digit pin password
+        public string? TransactionMessage { get; set; } // Customer message
     }
 
     public class CreateAccountDTO
     {
         [Required]
         [MaxLength(14)]
+        [MinLength(10)]
+        [RegularExpression(@"^\d{10,14}$", ErrorMessage = "Account number must be between 10 and 14 digits and contain only numbers.")]
+
         public string AccountNumber { get; set; }
     }
     public class CheckDuplicateAccountDTO 

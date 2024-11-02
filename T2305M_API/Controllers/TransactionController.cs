@@ -38,7 +38,7 @@ namespace T2305M_API.Controllers
         }
 
         [HttpGet("List-Account-Transactions")]
-        public async Task<IActionResult> ListUserTransactions(TransactionQueryParameters transactionQueryParameters)
+        public async Task<IActionResult> ListUserTransactions([FromQuery] TransactionQueryParameters transactionQueryParameters)
         {
             try
             {
@@ -120,7 +120,30 @@ namespace T2305M_API.Controllers
         //        return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
         //    }
         //}
+        //[HttpGet("List-Account-Transactions")]
+        //public async Task<IActionResult> CalculateTotalTransferedAmountPerDay(TransactionQueryParameters transactionQueryParameters)
+        //{
+        //    try
+        //    {
+        //        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //        if (userIdClaim == null)
+        //        {
+        //            return Unauthorized(new { message = "Invalid token or user not authenticated" });
+        //        }
 
+        //        int userId = int.Parse(userIdClaim);
+        //        //transactionQueryParameters.Userid = userId;
+        //        var paginatedResult = await _transactionService.GetBasicTransactionsAsync(transactionQueryParameters);
+        //        return Ok(new
+        //        {
+        //            result = paginatedResult,
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+        //    }
+        //}
     }
 }
 

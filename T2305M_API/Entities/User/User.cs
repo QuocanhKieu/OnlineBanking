@@ -32,7 +32,6 @@ public partial class User
     public string? PasswordResetToken { get; set; } // New field
     public virtual ICollection<Account>? Accounts { get; set; }  // Navigation property for many-to-many
     public virtual ICollection<Notification>? Notifications{ get; set; }  // Navigation property for many-to-many
-    public virtual ICollection<Transaction>? Transactions { get; set; }  // Navigation property for many-to-many
     public virtual ICollection<ServiceRequest>? ServiceRequests { get; set; }  // Navigation property for many-to-many
     public virtual ICollection<CheckBook>? CheckBooks { get; set; }  // Navigation property for many-to-many
     public virtual ICollection<Check>? Checks { get; set; }  // Navigation property for many-to-many

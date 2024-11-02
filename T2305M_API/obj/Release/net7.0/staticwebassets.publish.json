@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+YmV1N0YAlFmHhv3poI9iNORY5X17dtM1DHNbQETZDM=",
+  "Hash": "82gPH/758hVTgW6r0v/I3iDrtjPRdocTZIEYr8GmdrM=",
   "Source": "T2305M_API",
   "BasePath": "_content/T2305M_API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "T2305M_API\\wwwroot",
       "Source": "T2305M_API",
-      "ContentRoot": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
       "BasePath": "_content/T2305M_API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\PaymentComplete.html",
+      "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\PaymentComplete.html",
       "SourceId": "T2305M_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
       "BasePath": "_content/T2305M_API",
       "RelativePath": "Templates/EmailTemplate/PaymentComplete.html",
       "AssetKind": "All",
@@ -36,10 +36,10 @@
       "OriginalItemSpec": "wwwroot\\Templates\\EmailTemplate\\PaymentComplete.html"
     },
     {
-      "Identity": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\SendTicketsOrderComplete.html",
+      "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\SendTicketsOrderComplete.html",
       "SourceId": "T2305M_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
       "BasePath": "_content/T2305M_API",
       "RelativePath": "Templates/EmailTemplate/SendTicketsOrderComplete.html",
       "AssetKind": "All",
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "wwwroot\\Templates\\EmailTemplate\\SendTicketsOrderComplete.html"
     },
     {
-      "Identity": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\UserArticleSubmit.html",
+      "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\UserArticleSubmit.html",
       "SourceId": "T2305M_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
       "BasePath": "_content/T2305M_API",
       "RelativePath": "Templates/EmailTemplate/UserArticleSubmit.html",
       "AssetKind": "All",
@@ -72,6 +72,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Templates\\EmailTemplate\\UserArticleSubmit.html"
+    },
+    {
+      "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\uploads\\images\\292167f5-83b1-4efd-b266-960abdf7bba4_.jpg",
+      "SourceId": "T2305M_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
+      "BasePath": "_content/T2305M_API",
+      "RelativePath": "uploads/images/292167f5-83b1-4efd-b266-960abdf7bba4_.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\images\\292167f5-83b1-4efd-b266-960abdf7bba4_.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\uploads\\images\\c4a85d53-6c3e-471d-8ee7-7375282b8638_.jpg",
+      "SourceId": "T2305M_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
+      "BasePath": "_content/T2305M_API",
+      "RelativePath": "uploads/images/c4a85d53-6c3e-471d-8ee7-7375282b8638_.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\images\\c4a85d53-6c3e-471d-8ee7-7375282b8638_.jpg"
     }
   ]
 }

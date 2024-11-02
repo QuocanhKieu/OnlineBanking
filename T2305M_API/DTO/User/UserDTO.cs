@@ -14,12 +14,26 @@ namespace T2305M_API.DTO.User
 
     public class GetDetailUserDTO
     {
-  
-
+        public string CustomerId { get; set; } // for login and display
+        public string Phone { get; set; }
+        public string Name { get; set; }
+        public string CitizenId { get; set; }
+        public string CitizenIdFront { get; set; }
+        public string CitizenIdRear { get; set; }
+        public string? DigitalSignature { get; set; }// img
+        public string Address { get; set; }
+        public string? Avatar { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
     }
-    //user click vào bài viết nếu là người tạo ra bài viết thì sẽ hiện ra nút edit, xóa
-    // vào user profile nếu là user id trùng thì hiển thị form  cho phép edit ko trùng thì chỉ cho xem thông tin 
-
+   
+    public class TransPasswordDTO
+    {
+        [Required]
+        [MaxLength(8)]
+        [MinLength(8)]
+        [RegularExpression(@"^(?!([0-9])\1{7})\d{8}$", ErrorMessage = "Password must be exactly 8 digits and cannot consist of the same digit repeated.")]
+        public string TransPassword { get; set; } // 8 pin password
+    }
     public class UpdateUserDTO 
     {
         //public int UserId { get; set; }

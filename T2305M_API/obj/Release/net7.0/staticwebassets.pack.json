@@ -1,16 +1,24 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\PaymentComplete.html",
+      "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\PaymentComplete.html",
       "PackagePath": "staticwebassets\\Templates\\EmailTemplate\\PaymentComplete.html"
     },
     {
-      "Id": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\SendTicketsOrderComplete.html",
+      "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\SendTicketsOrderComplete.html",
       "PackagePath": "staticwebassets\\Templates\\EmailTemplate\\SendTicketsOrderComplete.html"
     },
     {
-      "Id": "C:\\Users\\KieuQuocAnh\\Desktop\\MouseWithoutBorders\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\UserArticleSubmit.html",
+      "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\UserArticleSubmit.html",
       "PackagePath": "staticwebassets\\Templates\\EmailTemplate\\UserArticleSubmit.html"
+    },
+    {
+      "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\uploads\\images\\292167f5-83b1-4efd-b266-960abdf7bba4_.jpg",
+      "PackagePath": "staticwebassets\\uploads\\images\\292167f5-83b1-4efd-b266-960abdf7bba4_.jpg"
+    },
+    {
+      "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\uploads\\images\\c4a85d53-6c3e-471d-8ee7-7375282b8638_.jpg",
+      "PackagePath": "staticwebassets\\uploads\\images\\c4a85d53-6c3e-471d-8ee7-7375282b8638_.jpg"
     },
     {
       "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.T2305M_API.Microsoft.AspNetCore.StaticWebAssets.props",

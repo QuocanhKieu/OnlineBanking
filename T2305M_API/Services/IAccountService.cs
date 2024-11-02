@@ -7,9 +7,10 @@ namespace T2305M_API.Services
     public interface IAccountService
     {
         Task<PaginatedResult<GetBasicAccountDTO>> GetBasicAccountsAsync(AccountQueryParameters queryParameters);
-        Task<Account> CheckDuplicateAccountAsync(CheckDuplicateAccountDTO checkDuplicateAccountDTO);
-        Task<GetDetailAccountDTO> GetDetailAccountDTOAsync(string accountNumber);
+        Task<Account> CheckExistingAccountAsync(CheckDuplicateAccountDTO checkDuplicateAccountDTO);
+        Task<GetDetailAccountDTO> GetDetailAccountDTOAsync(string accountNumber, int userId);
         Task<bool> CheckAccountBalance(CheckBalance checkBalance);
+        Task<Account> UpdateAccountBalance(decimal newBalance, string accountNumber);
 
 
     }

@@ -17,107 +17,58 @@ namespace T2305M_API.Services.Implements
         private readonly IMapper _mapper;
 
 
-        public UserService(T2305mApiContext context, IUserRepository userRepository, IWebHostEnvironment env,  IMapper mapper)
+        public UserService(T2305mApiContext context, IUserRepository userRepository, IWebHostEnvironment env, IMapper mapper)
         {
             _userRepository = userRepository;
             _env = env;
             _mapper = mapper;
             _context = context;
         }
-//        public async Task<GetDetailUserDTO> GetDetailUserDTOByIdAsync(int userId)
-//        {
-//            // Fetch the user entity by ID
-///*            var userEntity = await _userRepository.GetUserByIdAsync(userId)*/;
-//            var userEntity = await _userRepository.GetUserByIdAsync(userId,  true, true);
-
-
-//            if (userEntity == null)
-//            {
-//                return null; // Or throw an appropriate exception if you prefer
-//            }
-
-//            //var variable =  userEntity.UserEvents.Count;
-//            // Map the user entity to the GetDetailUserDTO
-//            var detailUserDTO = new GetDetailUserDTO
-//            {
-//                UserId = userEntity.UserId,
-//                FullName = userEntity.FullName,
-//                Email = userEntity.Email,
-//                Age = userEntity.Age,
-//                Education = userEntity.Education,
-//                ShortBiography = userEntity.ShortBiography,
-//                LongBiography = userEntity.LongBiography,
-//                PhotoUrl = userEntity.PhotoUrl,
-//                Facebook = userEntity.Facebook,
-//                LinkedIn = userEntity.LinkedIn,
-//                Twitter = userEntity.Twitter,
-//                PersonalWebsiteUrl = userEntity.PersonalWebsiteUrl,
-//                PersonalWebsiteTitle = userEntity.PersonalWebsiteTitle,
-//                ReceiveNotifications = userEntity.ReceiveNotifications,
-//                IsActive = userEntity.IsActive,
-                
-
-//                // Mapping UserEvents to BasicUserSavedEventDTO
-//                BasicUserSavedEvents = userEntity.UserEvents?
-//                    .Where(e => e.Event != null) // Ensure that the Event is not null
-//                    .Select(e =>  _mapper.Map<GetBasicEventDTO>(e.Event))
-//                    .ToList(),
-
-//                // Mapping UserArticles to BasicUserArticleDTO
-//                BasicUserArticles = userEntity.UserArticles?.Select(a => new GetBasicUserArticleDTO
-//                {
-//                    UserArticleId = a.UserArticleId,
-//                    Title = a.Title,
-//                    Description = a.Description,
-//                    ThumbnailImage = a.ThumbnailImage,
-//                    IsPromoted = a.IsPromoted,
-//                    UserId = a.UserId,
-//                    UserName = a.User != null ? a.User.FullName : "Unknown", // Assuming User has a Name property
-//                    CreatedAt = a.CreatedAt,
-//                    Status = a.Status,
-//                    UserArticleTags = a.userArticleUserArticleTags?.Select(tag => new UserArticleTagDTO
-//                    {
-//                        UserArticleTagId = tag.UserArticleTag.UserArticleTagId,
-//                        Name = tag.UserArticleTag.Name
-//                    }).ToList()
-//                }).ToList()
-//            };
-
-//            return detailUserDTO;
-//        }
-
-//        public async Task<UpdateUserResponseDTO> UpdateUserAsync(int userId, UpdateUserDTO updateUserDTO)
-//        {
-//            UpdateUserResponseDTO updateUserResponseDTO = await _userRepository.UpdateUserAsync( userId,  updateUserDTO);
-//            return updateUserResponseDTO;
-//        }
-
-//        public async Task<Dictionary<string, List<string>>> ValidateUpdateUserDTO(UpdateUserDTO updateUserDTO)
-//        {
-//            var errors = new Dictionary<string, List<string>>();
-
-//            //Validate CustomerId
-//            //if (updateUserDTO.UserId <= 0 || updateUserDTO.UserId != UserId)
-//            //{
-//            //    AddError(errors, "UserId", "UserId is not provided or UserId mismatch.");
-//            //}
-
-//            return errors.Count > 0 ? errors : null;
-//        }
-
-//        private static void AddError(Dictionary<string, List<string>> errors, string key, string errorMessage)
-//        {
-//            if (!errors.ContainsKey(key))
-//            {
-//                errors[key] = new List<string>();
-//            }
-//            errors[key].Add(errorMessage);
-//        }
-
-
-        public async Task<Object> UploadAvatarAsync(int userId, IFormFile file)
+        public async Task<GetDetailUserDTO> GetDetailUserDTOAsync(int userId)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            try
+            {
+                var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+
+                if (userEntity == null)
+                {
+                    throw new Exception("User not Found"); // Or throw an appropriate exception if you prefer
+                }
+
+                //var variable =  userEntity.UserEvents.Count;
+                // Map the user entity to the GetDetailUserDTO
+                var detailUserDTO = new GetDetailUserDTO
+                {
+                   CustomerId = userEntity.CustomerId,
+                   Phone = userEntity.Phone,
+                   Name = userEntity.Name,
+                   CitizenId = userEntity.CitizenId,
+                   CitizenIdFront = userEntity.CitizenIdFront,
+                   CitizenIdRear = userEntity.CitizenIdRear,
+                   DigitalSignature = userEntity.DigitalSignature,
+                   Address = userEntity.Address,
+                   Avatar = userEntity.Avatar,
+                   CreatedAt = userEntity.CreatedAt,
+                };
+
+                return detailUserDTO;
+            }
+            catch (Exception Ex)
+            {
+                throw;
+            }
+        }
+
+        //public async Task<UpdateUserResponseDTO> UpdateUserAsync(int userId, UpdateUserDTO updateUserDTO)
+        //{
+        //    UpdateUserResponseDTO updateUserResponseDTO = await _userRepository.UpdateUserAsync(userId, updateUserDTO);
+        //    return updateUserResponseDTO;
+        //}
+
+        public async Task<User> UploadAvatarAsync(int userId, IFormFile file)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
             if (user == null)
             {
                 throw new Exception("User not found.");
@@ -150,11 +101,46 @@ namespace T2305M_API.Services.Implements
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
-            return new 
-            {
-                FilePath = user.Avatar,
-                Message  = "File Uploaded Successfully",
-            };
+            return user;
         }
+    
+    
+        public async Task<User> MakeTransPasswordAsync(int userId, TransPasswordDTO transPasswordDTO)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+            {
+                throw new Exception("User not Found"); // Or throw an appropriate exception if you prefer
+            }
+            if (!string.IsNullOrEmpty(user.TransPassword))
+            {
+                throw new Exception("TransPassword already exists"); // Or throw an appropriate exception if you prefer
+            }
+            user.TransPassword = transPasswordDTO.TransPassword;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<bool> CheckTransPasswordExistAsync(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+            {
+                throw new Exception("User not Found"); // Or throw an appropriate exception if you prefer
+            }
+            return string.IsNullOrEmpty(user.TransPassword); // true là empty/null
+        }
+        public async Task<bool> VerifyTranspasswordAsync(int userId, string transPassword)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+            {
+                throw new Exception("User not Found"); // Or throw an appropriate exception if you prefer
+            }
+            return user.TransPassword == transPassword; // true là empty/null
+        }
+
+
     }
 }

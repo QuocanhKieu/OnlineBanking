@@ -66,8 +66,7 @@ namespace T2305M_API.DTO.User
         [MaxLength(255)]
         public string Address { get; set; }
         [Required]
-        [MaxLength(14)]
-        [MinLength(10)]
+        [RegularExpression(@"^\d{10,14}$", ErrorMessage = "Account number must be between 10 and 14 numeric digits.")]
         public string AccountNumber { get; set; } // acc mặc định ban đầu
     }
 

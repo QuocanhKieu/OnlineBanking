@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace T2305M_API.Entities
 {
-    public class Transaction // nếu chuyển tiền thất bại thì chỉ có 1 transaction đc tạo phía người gửi
+    public class Transaction 
     {
         [Key]
         public int TransactionId { get; set; } // auto-increment
+        public string? TransactionCode { get; set; }  // Adjust the type if needed
         public int SourceAccountId { get; set; }
         public int? DesAccountId { get; set; }
         public string TransactionType{ get; set; } // BANKTRANSFER, CHECKPAYMENT

@@ -383,7 +383,7 @@ namespace T2305M_API.Controllers
             //var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
             var baseUrl = _config["ClientUrl"]; // Get the frontend base URL from configuration
-            var resetPasswordRoute = "/api/auth/change-password";
+            var resetPasswordRoute = "/api/auth/reset-password";
             var resetLink = $"{baseUrl}{resetPasswordRoute}?token={token}";
 
             // Email content
