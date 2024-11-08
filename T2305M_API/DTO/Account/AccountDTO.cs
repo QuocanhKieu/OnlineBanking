@@ -51,15 +51,17 @@ namespace T2305M_API.DTO.Account
 
         [RegularExpression(@"^\d{10,14}$", ErrorMessage = "Account number must be between 10 and 14 numeric digits.")]
         public string? DesAccountNumber { get; set; }
+        public string? DesUserName { get; set; }
 
         [Required]
         [Range(0.01, (double)decimal.MaxValue, ErrorMessage = "Money Amount must be greater than zero.")]
         public decimal MoneyAmount { get; set; }
 
-        [Required]
-        [RegularExpression(@"^\d{8}$", ErrorMessage = "Transaction password must be exactly 8 numeric digits.")]
-        public string TransPassword { get; set; } // 8-digit pin password
+        //[Required]
+        //[RegularExpression(@"^\d{8}$", ErrorMessage = "Transaction password must be exactly 8 numeric digits.")]
+        //public string TransPassword { get; set; } // 8-digit pin password
         public string? TransactionMessage { get; set; } // Customer message
+        public string Otp { get; set; } // Customer message
     }
 
     public class CreateAccountDTO

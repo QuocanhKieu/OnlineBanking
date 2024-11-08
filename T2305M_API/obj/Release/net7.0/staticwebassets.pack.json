@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\OnlineBankingGmailTemplate.html",
+      "PackagePath": "staticwebassets\\Templates\\EmailTemplate\\OnlineBankingGmailTemplate.html"
+    },
+    {
       "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\PaymentComplete.html",
       "PackagePath": "staticwebassets\\Templates\\EmailTemplate\\PaymentComplete.html"
     },
@@ -11,6 +15,10 @@
     {
       "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\UserArticleSubmit.html",
       "PackagePath": "staticwebassets\\Templates\\EmailTemplate\\UserArticleSubmit.html"
+    },
+    {
+      "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\ExcelTemplate\\account_statement.xlsx",
+      "PackagePath": "staticwebassets\\Templates\\ExcelTemplate\\account_statement.xlsx"
     },
     {
       "Id": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\uploads\\images\\292167f5-83b1-4efd-b266-960abdf7bba4_.jpg",

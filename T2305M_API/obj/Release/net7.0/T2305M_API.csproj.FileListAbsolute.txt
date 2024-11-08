@@ -524,3 +524,11 @@ C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\T2305M_API.pdb
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\T2305M_API.genruntimeconfig.cache
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\ref\T2305M_API.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\ClosedXML.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\ClosedXML.Parser.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\DocumentFormat.OpenXml.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\ExcelNumberFormat.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\RBush.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\SixLabors.Fonts.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\bin\Release\net7.0\System.IO.Packaging.dll

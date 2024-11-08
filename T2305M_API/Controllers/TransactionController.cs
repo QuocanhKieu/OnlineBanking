@@ -61,89 +61,46 @@ namespace T2305M_API.Controllers
                 return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
             }
         }
+        [HttpGet("find-one-Transactions")]
+        public async Task<IActionResult> FindONeTrans([FromQuery] string transactionCode)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
 
-        //[HttpPost("Create-Transaction")]
-        //public async Task<IActionResult> CreateTransaction([FromBody] CreateTransactionDTO createTransactionDTO)
-        //{
-        //    try
-        //    {
-        //        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //        if (userIdClaim == null)
-        //        {
-        //            return Unauthorized(new { message = "Invalid token or user not authenticated" });
-        //        }
+                int userId = int.Parse(userIdClaim);
 
-        //        int userId = int.Parse(userIdClaim);
-
-        //        var existingTransaction = await _transactionService.CheckDuplicateTransactionAsync(new CheckDuplicateTransactionDTO { TransactionNumber = createTransactionDTO.TransactionNumber });
-        //        if (existingTransaction != null)
-        //        {
-        //            return BadRequest(new
-        //            {
-        //                message = "TransactionNumber is already registered."
-        //            });
-        //        }
-
-        //        await _transactionRepository.CreateTransactionAsync(createTransactionDTO, userId);
-        //        return Ok(new
-        //        {
-        //            message = "TransactionNumber Created Successfully."
-        //        });
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
-        //    }
-        //}
-
-
-        //[HttpGet("{transactionId}")]
-        //public async Task<ActionResult<GetBasicTransactionDTO>> GetDetailTransactionDTO(int transactionId)
-        //{
-        //    try
-        //    {
-        //        var detailTransactionDTO = await _transactionService.GetDetailTransactionDTOAsync(transactionId);
-        //        if (detailTransactionDTO == null)
-        //        {
-        //            return NotFound(
-        //                new
-        //                {
-        //                    message = "DetailTransaction not found."
-        //                });
-        //        }
-        //        //return Ok(new APIResponse<GetDetailTransactionDTO>(detailTransactionDTO, "Retrieved paginated basic Books successfully."));
-        //        return Ok(detailTransactionDTO); // Return the DTO
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
-        //    }
-        //}
-        //[HttpGet("List-Account-Transactions")]
-        //public async Task<IActionResult> CalculateTotalTransferedAmountPerDay(TransactionQueryParameters transactionQueryParameters)
-        //{
-        //    try
-        //    {
-        //        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //        if (userIdClaim == null)
-        //        {
-        //            return Unauthorized(new { message = "Invalid token or user not authenticated" });
-        //        }
-
-        //        int userId = int.Parse(userIdClaim);
-        //        //transactionQueryParameters.Userid = userId;
-        //        var paginatedResult = await _transactionService.GetBasicTransactionsAsync(transactionQueryParameters);
-        //        return Ok(new
-        //        {
-        //            result = paginatedResult,
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
-        //    }
-        //}
+                var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.TransactionCode == transactionCode);
+                if (transaction == null)
+                {
+                    return NotFound("Transaction not Found");
+                }
+                return Ok(new GetBasicTransactionDTO
+                {
+                    Amount = transaction.Amount,
+                    BalanceAfter = transaction.SourceAccount.UserId == userId? transaction.SourceAccountBalanceAfter : transaction.DesAccountBalanceAfter,// Caution!
+                    TransactionDescription = transaction.TransactionDescription,
+                    SourceAccountNumber = transaction.SourceAccountNumber,
+                    DesAccountNumber = transaction.DesAccountNumber,
+                    TransactionDate = transaction.TransactionDate,
+                    TransactionType = transaction.TransactionType,
+                    SourceUserName = transaction.SourceAccount.User.Name,
+                    DesUserName = transaction.DesAccount.User.Name,
+                    DesAccountId = transaction.DesAccountId,
+                    SourceAccountId = transaction.SourceAccountId,
+                    TransactionMesage = transaction.TransactionMessage,
+                    TransactionCode = transaction.TransactionCode
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
     }
 }
 

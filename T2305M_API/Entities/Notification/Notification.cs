@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace T2305M_API.Entities
 {
@@ -6,6 +7,7 @@ namespace T2305M_API.Entities
     {
         [Key]
         public int NotificationId { get; set; }// auto-increment
+        [Column(TypeName = "NVARCHAR(MAX)")]
         public string Content { get; set; }
         public bool IsRead { get; set; } = false; // Default to unread
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow; // Default to the current time

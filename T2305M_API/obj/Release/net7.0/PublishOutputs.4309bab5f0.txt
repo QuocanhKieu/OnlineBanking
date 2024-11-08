@@ -10,6 +10,11 @@ C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\BCrypt.Net-Next.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Bogus.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Castle.Core.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\ClosedXML.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\ClosedXML.Parser.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\DocumentFormat.OpenXml.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\DocumentFormat.OpenXml.Framework.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\ExcelNumberFormat.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Humanizer.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
@@ -65,6 +70,8 @@ C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\NuGet.ProjectModel.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\NuGet.Protocol.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\NuGet.Versioning.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\RBush.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\SixLabors.Fonts.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -76,6 +83,7 @@ C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\System.Configuration.ConfigurationManager.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\System.Drawing.Common.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\System.IO.Packaging.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\System.Memory.Data.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\System.Reflection.MetadataLoadContext.dll
 C:\Users\QA\Desktop\.Net-API_BigAssignment\.Net-API_BigAssignment\T2305M_API\obj\Release\net7.0\PubTmp\Out\System.Runtime.Caching.dll

@@ -48,8 +48,9 @@ public class TransactionService : ITransactionService
                 SourceUserName = transaction.SourceAccount.User.Name,
                 DesUserName = transaction.DesAccount.User.Name,
                 DesAccountId = transaction.DesAccountId,
-                SourceAccountId = transaction.SourceAccountId
-
+                SourceAccountId = transaction.SourceAccountId,
+                TransactionMesage = transaction.TransactionMessage,
+                TransactionCode = transaction.TransactionCode
             });
         }
         // Calculate total pages
@@ -67,30 +68,38 @@ public class TransactionService : ITransactionService
         };
     }
 
-    //public async Task<GetBasicTransactionDTO> GetDetailTransactionDTOAsync(int transactionId)
-    //{
-    //    var transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.TransactionId == transactionId);
+    public async Task<List<GetBasicTransactionDTO>> GetAllBasicTransactionsAsync(TransactionQueryParameters queryParameters)
+    {
+        var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber == queryParameters.AccountNumber);
+        if (existingAccount == null) throw new Exception("Account Not Found");
 
-    //    if (transaction == null)
-    //    {
-    //        return null; // Or throw an appropriate exception
-    //    }
+        var (data, totalItems) = await _transactionRepository.GetTransactionsAsync(queryParameters);
 
-    //    var detailTransactionDTO = new GetBasicTransactionDTO
-    //    {
-    //        Amount = transaction.Amount,
-    //        BalanceAfter = transaction..AccountNumber == transaction.SourceAccountNumber ? transaction.SourceAccountBalanceAfter : transaction.DesAccountBalanceAfter,
-    //        TransactionDescription = transaction.TransactionDescription,
-    //        SourceAccountNumber = transaction.SourceAccountNumber,
-    //        DesAccountNumber = transaction.DesAccountNumber,
-    //        TransactionDate = transaction.TransactionDate,
-    //        TransactionType = transaction.TransactionType,
-    //        SourceUserName = transaction.SourceAccount.User.Name,
-    //        DesUserName = transaction.DesAccount.User.Name
-    //    };
+        var basicTransactionDTOs = new List<GetBasicTransactionDTO>();
 
-    //    return detailTransactionDTO;
-    //}
+        foreach (var transaction in data)
+        {
+            basicTransactionDTOs.Add(new GetBasicTransactionDTO
+            {
+                Amount = transaction.Amount,
+                BalanceAfter = queryParameters.AccountNumber == transaction.SourceAccountNumber ? transaction.SourceAccountBalanceAfter : transaction.DesAccountBalanceAfter,
+                TransactionDescription = transaction.TransactionDescription,
+                SourceAccountNumber = transaction.SourceAccountNumber,
+                DesAccountNumber = transaction.DesAccountNumber,
+                TransactionDate = transaction.TransactionDate,
+                TransactionType = transaction.TransactionType,
+                SourceUserName = transaction.SourceAccount.User.Name,
+                DesUserName = transaction.DesAccount.User.Name,
+                DesAccountId = transaction.DesAccountId,
+                SourceAccountId = transaction.SourceAccountId,
+                TransactionMesage = transaction.TransactionMessage,
+                TransactionCode = transaction.TransactionCode
+            });
+        }
+        // Calculate total pages
+
+        return basicTransactionDTOs;
+    }
 
 
 }

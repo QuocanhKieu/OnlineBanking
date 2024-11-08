@@ -30,6 +30,10 @@ public partial class User
     public bool IsEmailConfirmed { get; set; } = false;
     public string? EmailConfirmationToken { get; set; }
     public string? PasswordResetToken { get; set; } // New field
+
+    public string? OtpCode { get; set; }
+    public DateTime? OtpExpiryTime { get; set; }//60s
+
     public virtual ICollection<Account>? Accounts { get; set; }  // Navigation property for many-to-many
     public virtual ICollection<Notification>? Notifications{ get; set; }  // Navigation property for many-to-many
     public virtual ICollection<ServiceRequest>? ServiceRequests { get; set; }  // Navigation property for many-to-many

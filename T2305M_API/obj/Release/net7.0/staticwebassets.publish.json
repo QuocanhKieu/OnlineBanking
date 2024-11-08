@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "82gPH/758hVTgW6r0v/I3iDrtjPRdocTZIEYr8GmdrM=",
+  "Hash": "Syk2mbAk5bJ/asBgx7StHEJc7+re+XlJPwHyhUN0fKo=",
   "Source": "T2305M_API",
   "BasePath": "_content/T2305M_API",
   "Mode": "Default",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\OnlineBankingGmailTemplate.html",
+      "SourceId": "T2305M_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
+      "BasePath": "_content/T2305M_API",
+      "RelativePath": "Templates/EmailTemplate/OnlineBankingGmailTemplate.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Templates\\EmailTemplate\\OnlineBankingGmailTemplate.html"
+    },
     {
       "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\EmailTemplate\\PaymentComplete.html",
       "SourceId": "T2305M_API",
@@ -72,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Templates\\EmailTemplate\\UserArticleSubmit.html"
+    },
+    {
+      "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\Templates\\ExcelTemplate\\account_statement.xlsx",
+      "SourceId": "T2305M_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\",
+      "BasePath": "_content/T2305M_API",
+      "RelativePath": "Templates/ExcelTemplate/account_statement.xlsx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Templates\\ExcelTemplate\\account_statement.xlsx"
     },
     {
       "Identity": "C:\\Users\\QA\\Desktop\\.Net-API_BigAssignment\\.Net-API_BigAssignment\\T2305M_API\\wwwroot\\uploads\\images\\292167f5-83b1-4efd-b266-960abdf7bba4_.jpg",

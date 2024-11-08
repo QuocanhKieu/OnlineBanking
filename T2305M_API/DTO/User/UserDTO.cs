@@ -16,6 +16,7 @@ namespace T2305M_API.DTO.User
     {
         public string CustomerId { get; set; } // for login and display
         public string Phone { get; set; }
+        public string Email { get; set; }
         public string Name { get; set; }
         public string CitizenId { get; set; }
         public string CitizenIdFront { get; set; }

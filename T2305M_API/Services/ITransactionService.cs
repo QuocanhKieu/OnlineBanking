@@ -7,7 +7,8 @@ namespace T2305M_API.Services
     public interface ITransactionService
     {
         Task<PaginatedResult<GetBasicTransactionDTO>> GetBasicTransactionsAsync(TransactionQueryParameters queryParameters);
-        //Task<GetBasicTransactionDTO> GetDetailTransactionDTOAsync(int transactionId);
+        Task<List<GetBasicTransactionDTO>> GetAllBasicTransactionsAsync(TransactionQueryParameters queryParameters);
+
 
     }
 }

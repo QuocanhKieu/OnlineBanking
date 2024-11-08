@@ -236,23 +236,30 @@ namespace T2305M_API.Controllers
         {
             try
             {
+                // Extract UserId
                 var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (userIdClaim == null)
                 {
                     return Unauthorized(new { message = "Invalid token or user not authenticated" });
                 }
-
                 int userId = int.Parse(userIdClaim);
-                //check user transpassword existence
-                var isNotHavingTransPW = await _userService.CheckTransPasswordExistAsync(userId);
-                if (isNotHavingTransPW)
+
+                // Extract Email
+                var emailClaim = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (emailClaim == null)
                 {
-                    return BadRequest(new
-                    {
-                        code = 1,
-                        message = "Please Create TransPassword first"
-                    });
+                    return Unauthorized(new { message = "Email claim is missing" });
                 }
+                ////check user transpassword existence
+                //var isNotHavingTransPW = await _userService.CheckTransPasswordExistAsync(userId);
+                //if (isNotHavingTransPW)
+                //{
+                //    return BadRequest(new
+                //    {
+                //        code = 1,
+                //        message = "Please Create TransPassword first"
+                //    });
+                //}
                 //check input
                 if (!ModelState.IsValid)
                 {
@@ -263,16 +270,16 @@ namespace T2305M_API.Controllers
                     });
                 }
                 //check user transpassword match
-                var isMatch = await _userService.VerifyTranspasswordAsync(userId, moneyTransfer.TransPassword);
-                if (!isMatch)
-                {
-                    return BadRequest(
-                        new
-                        {
-                            code = 6,
-                            message = "Transaction password not match, Please Check Again!"
-                        });
-                }
+                //var isMatch = await _userService.VerifyTranspasswordAsync(userId, moneyTransfer.TransPassword);
+                //if (!isMatch)
+                //{
+                //    return BadRequest(
+                //        new
+                //        {
+                //            code = 6,
+                //            message = "Transaction password not match, Please Check Again!"
+                //        });
+                //}
 
                 //Check  account existence
                 var sourceAccount = await _accountService.CheckExistingAccountAsync(new CheckDuplicateAccountDTO { AccountNumber = moneyTransfer.SourceAccountNumber });
@@ -287,7 +294,7 @@ namespace T2305M_API.Controllers
                 Account desAccount = null;
                 if (moneyTransfer.DesAccountNumber != null)
                 {
-                     desAccount = await _accountService.CheckExistingAccountAsync(new CheckDuplicateAccountDTO { AccountNumber = moneyTransfer.DesAccountNumber });
+                    desAccount = await _accountService.CheckExistingAccountAsync(new CheckDuplicateAccountDTO { AccountNumber = moneyTransfer.DesAccountNumber });
                     if (desAccount == null)
                     {
                         return BadRequest(new
@@ -296,16 +303,16 @@ namespace T2305M_API.Controllers
                             message = "DesAccountNumber does not exist"
                         });
                     }
-                    if (desAccount.UserId == userId)
-                    {
-                        return BadRequest(new
-                        {
-                            code = 9,
-                            message = "Can not make transaction to your own account."
-                        });
-                    }
+                    //if (desAccount.UserId == userId)
+                    //{
+                    //    return BadRequest(new
+                    //    {
+                    //        code = 9,
+                    //        message = "Can not make transaction to your own account."
+                    //    });
+                    //}
                 }
-                bool response = await _accountService.CheckAccountBalance(new CheckBalance { AccountNumber = moneyTransfer.SourceAccountNumber, MoneyAmount = moneyTransfer.MoneyAmount});
+                bool response = await _accountService.CheckAccountBalance(new CheckBalance { AccountNumber = moneyTransfer.SourceAccountNumber, MoneyAmount = moneyTransfer.MoneyAmount });
                 if (!response)
                 {
                     return BadRequest(new
@@ -316,7 +323,7 @@ namespace T2305M_API.Controllers
                 }
 
                 decimal todaySourceAccountTransferAmmount = await _transactionRepository.CalculateTotalTransferedAmountPerDay(moneyTransfer.SourceAccountNumber);
-                if(todaySourceAccountTransferAmmount + moneyTransfer.MoneyAmount > 15000)
+                if (todaySourceAccountTransferAmmount + moneyTransfer.MoneyAmount > 15000)
                 {
                     return BadRequest(
                         new
@@ -334,6 +341,14 @@ namespace T2305M_API.Controllers
                             message = "The Amount per Transaction could not get over 5000, Please try again."
                         });
                 }
+
+                bool isOtpValid = await _accountService.VerifyOtpAsync(emailClaim, moneyTransfer.Otp);
+                if (!isOtpValid)
+                {
+                    return BadRequest("Invalid or expired OTP.");
+                }
+
+
                 var createTransactionDTO = new CreateTransactionDTO
                 {
                     Amount = moneyTransfer.MoneyAmount,
@@ -347,7 +362,7 @@ namespace T2305M_API.Controllers
                     SourceAccountBalanceAfter = sourceAccount.Balance - moneyTransfer.MoneyAmount,
                 };
                 createTransactionDTO.TransactionDescription = $"Online Banking Transfer: Funds moved from Account Number: {moneyTransfer.SourceAccountNumber} to Account Number: {moneyTransfer.DesAccountNumber} | TransCode: {createTransactionDTO.TransactionCode}";
-                
+
                 var newTransaction = await _transactionRepository.CreateTransactionAsync(createTransactionDTO);
                 var updatedSourceAccount = await _accountService.UpdateAccountBalance(newTransaction.SourceAccountBalanceAfter, newTransaction.SourceAccountNumber);
                 if (newTransaction.DesAccountBalanceAfter != null && newTransaction.DesAccountNumber != null)
@@ -386,7 +401,7 @@ namespace T2305M_API.Controllers
                 {
                     TransactionCode = newTransaction.TransactionCode,
                     SourceAccountNumber = newTransaction.SourceAccountNumber,
-                    DesAccountOwnerName = newTransaction.DesAccount?.User?.Name??"DesAccOwnerName",
+                    DesAccountOwnerName = newTransaction.DesAccount?.User?.Name ?? "DesAccOwnerName",
                     DesAccountNumber = newTransaction.DesAccountNumber,
                     Amount = newTransaction.Amount,
                     TransactionDate = newTransaction.TransactionDate,
@@ -401,12 +416,18 @@ namespace T2305M_API.Controllers
         }
 
         [HttpGet("find-like-account")]
-        public async Task<IActionResult> FindExistingAccount([FromQuery] int accountNumber)
+        public async Task<IActionResult> FindLikeAccounts([FromQuery] string accountNumber)
         {
             try
             {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
 
-                IEnumerable<Account> foundAccounts = await _accountRepository.ListLikeAccountsAsync(accountNumber.ToString().Trim());
+                int userId = int.Parse(userIdClaim);
+                IEnumerable<Account> foundAccounts = await _accountRepository.ListLikeAccountsAsync(accountNumber, userId);
 
                 // Map found accounts to a custom object list
                 var mappedAccounts = foundAccounts.Select(account => new
@@ -426,6 +447,165 @@ namespace T2305M_API.Controllers
                 return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
             }
         }
+
+
+        [HttpGet("find-one-account")]
+        public async Task<IActionResult> FindOneAccount([FromQuery] string accountNumber)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
+
+                int userId = int.Parse(userIdClaim);
+
+                var foundAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber == accountNumber);
+
+
+                if (foundAccount == null)
+                {
+                    return NotFound("Not Found");
+                }
+
+                return Ok(new
+                {
+                    accountNumber = foundAccount.AccountNumber,
+                    userName = foundAccount.User.Name
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpGet("download-account-statement")]
+        public async Task<IActionResult> DownloadAccountSttatement([FromQuery] TransactionQueryParameters queryParameters)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
+
+                int userId = int.Parse(userIdClaim);
+                queryParameters.UserId = userId;
+                // Generate the report and get the file path
+                string filePath = await _accountService.GenerateAccountStatementReport(queryParameters);
+
+                // Verify if the file was created successfully
+                if (!System.IO.File.Exists(filePath))
+                {
+                    return NotFound("Account statement report could not be generated.");
+                }
+
+                // Read the file into a memory stream for downloading
+                var memory = new MemoryStream();
+                using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+
+                // Define the content type for Excel files
+                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                string fileName = Path.GetFileName(filePath);
+
+                // Set the Content-Disposition header to prompt file download
+                Response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}");
+
+
+                // Return the file as a downloadable response
+                return File(memory, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
+
+        [HttpPost("request-money-transfer-otp")]
+        public async Task<ActionResult> RequestOtp()
+        {
+            try
+            {
+                // Extract UserId
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
+                int userId = int.Parse(userIdClaim);
+
+                // Extract Email
+                var emailClaim = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (emailClaim == null)
+                {
+                    return Unauthorized(new { message = "Email claim is missing" });
+                }
+                var otp = await _accountService.GenerateAndStoreOtpAsync(emailClaim);
+                await _accountService.SendOtpEmailAsync(emailClaim, otp);
+                return Ok("OTP sent to your email.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
+
+        [HttpGet("verify-money-transfer-otp")]
+        public async Task<ActionResult> VerifyOtp(string otp)
+        {
+            try
+            {
+                // Extract UserId
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
+                int userId = int.Parse(userIdClaim);
+
+                // Extract Email
+                var emailClaim = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (emailClaim == null)
+                {
+                    return Unauthorized(new { message = "Email claim is missing" });
+                }
+
+                bool isOtpValid = await _accountService.VerifyOtpAsync(emailClaim, otp);
+                if (isOtpValid)
+                {
+                    return Ok("OTP verified successfully.");
+                }
+                return BadRequest("Invalid or expired OTP.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
+
+
+
     }
 }
 

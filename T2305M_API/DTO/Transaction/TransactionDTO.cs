@@ -19,11 +19,13 @@ namespace T2305M_API.DTO.Transaction
         public decimal? BalanceAfter { get; set; }
         public DateTime TransactionDate { get; set; }
         public string? TransactionDescription { get; set; }
+        public string? TransactionMesage { get; set; }
+        public string? TransactionCode { get; set; }
     }
 
     public class CreateTransactionDTO
     {
-        public string TransactionCode { get; set; } = $"{Guid.NewGuid().ToString("N")}".ToUpper(); // Adjust the type if needed
+        public string TransactionCode { get; set; } = $"{Guid.NewGuid().ToString("N").ToUpper().Substring(0, 16)}";
         public string TransactionType { get; set; } // BANKTRANSFER, CHECKPAYMENT
         public string SourceAccountNumber { get; set; }
         public string? DesAccountNumber { get; set; }
@@ -50,6 +52,7 @@ namespace T2305M_API.DTO.Transaction
     public class TransactionQueryParameters
     {
         public string AccountNumber { get; set; }
+        public int UserId { get; set; }
         const int maxPageSize = 50;
         public int Page { get; set; } = 1;
         private int _pageSize = 10;

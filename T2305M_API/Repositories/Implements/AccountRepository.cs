@@ -81,11 +81,11 @@ public class AccountRepository : IAccountRepository
             }
         }
     }
-    public async Task<IEnumerable<Account>> ListLikeAccountsAsync(string accountNumber)
+    public async Task<IEnumerable<Account>> ListLikeAccountsAsync(string accountNumber, int userId)
     {
         // Assuming you have a DbContext named 'context' and an Account entity
         return await _context.Accounts
-                            .Where(a => a.AccountNumber.Contains(accountNumber))
+                            .Where(a => a.AccountNumber.Contains(accountNumber) && a.UserId != userId)
                             .ToListAsync();
     }
 

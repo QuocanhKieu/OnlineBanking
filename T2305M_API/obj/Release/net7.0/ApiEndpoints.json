@@ -54,7 +54,78 @@
   },
   {
     "ContainingType": "T2305M_API.Controllers.AccountController",
-    "Method": "FindExistingAccount",
+    "Method": "DownloadAccountSttatement",
+    "RelativePath": "api/Account/download-account-statement",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AccountNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MoneyFlow",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TransactionType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Period",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortColumn",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.AccountController",
+    "Method": "FindLikeAccounts",
     "RelativePath": "api/Account/find-like-account",
     "HttpMethod": "GET",
     "IsController": true,
@@ -62,7 +133,23 @@
     "Parameters": [
       {
         "Name": "accountNumber",
-        "Type": "System.Int32",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.AccountController",
+    "Method": "FindOneAccount",
+    "RelativePath": "api/Account/find-one-account",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountNumber",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -147,6 +234,32 @@
         "Name": "moneyTransfer",
         "Type": "T2305M_API.DTO.Account.MoneyTransfer",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.AccountController",
+    "Method": "RequestOtp",
+    "RelativePath": "api/Account/request-money-transfer-otp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.AccountController",
+    "Method": "VerifyOtp",
+    "RelativePath": "api/Account/verify-money-transfer-otp",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otp",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -237,6 +350,254 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "ApproveCheckRequestMakingTransaction",
+    "RelativePath": "api/CheckBook/approve-check-request-making-transaction",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "ApproveCheckbook",
+    "RelativePath": "api/CheckBook/approve-checkbook",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkBookCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "ChangeCheckBookToDelivered",
+    "RelativePath": "api/CheckBook/change-checkbook-to-delivered",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkBookCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "ChangeCheckBookToShipping",
+    "RelativePath": "api/CheckBook/change-checkbook-to-shipping",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkBookCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "ChangeCheckBookToWorking",
+    "RelativePath": "api/CheckBook/change-checkbook-to-working",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkBookCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "CheckInprogressCheckbook",
+    "RelativePath": "api/CheckBook/check-inprogress-checkbook",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "CreateChecks",
+    "RelativePath": "api/CheckBook/create-checks",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkBookCode",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "quantity",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "ListCheckBooks",
+    "RelativePath": "api/CheckBook/list-checkbooks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "AccountNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortColumn",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "RejectCheckRequestMakingTransaction",
+    "RelativePath": "api/CheckBook/reject-check-request-making-transaction",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rejectCheckRequestModel",
+        "Type": "T2305M_API.DTO.CheckBook.RejectCheckRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "RequestCheckBook",
+    "RelativePath": "api/CheckBook/request-check-book",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createCheckBookDTO",
+        "Type": "T2305M_API.DTO.CheckBook.CreateCheckBookDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "StopCheckbook",
+    "RelativePath": "api/CheckBook/stop-checkbook",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stopCheckbookRequest",
+        "Type": "T2305M_API.DTO.CheckBook.StopCheckbookRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "SubmitCheckProcessRequest",
+    "RelativePath": "api/CheckBook/submit-check-process-request",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "processCheckRequirements",
+        "Type": "T2305M_API.DTO.CheckBook.ProcessCheckRequirements",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "VerifyCheckbookAndAccountRequirementsToApproveCheckPayment",
+    "RelativePath": "api/CheckBook/verify-checkbook-and-Account-requirements-to-approve-check-payment-and-notify",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "verifyCheckbookAndAccountRequirements",
+        "Type": "T2305M_API.DTO.CheckBook.VerifyCheckbookAndAccountRequirements",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.CheckBookController",
+    "Method": "VerifyCheckBookEligibilityCreation",
+    "RelativePath": "api/CheckBook/verify-checkbook-eligibility-creation",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkBookCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "T2305M_API.Controllers.NotificationController",
     "Method": "GetNotifications",
     "RelativePath": "api/Notification/get-notifications",
@@ -295,6 +656,22 @@
   },
   {
     "ContainingType": "T2305M_API.Controllers.TransactionController",
+    "Method": "FindONeTrans",
+    "RelativePath": "api/Transaction/find-one-Transactions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transactionCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.TransactionController",
     "Method": "ListUserTransactions",
     "RelativePath": "api/Transaction/List-Account-Transactions",
     "HttpMethod": "GET",
@@ -304,6 +681,11 @@
       {
         "Name": "AccountNumber",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
@@ -373,6 +755,26 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.UserController",
+    "Method": "CheckHavingSignature",
+    "RelativePath": "api/User/check-having-digital-signature",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.UserController",
+    "Method": "CheckTranspasswordExist",
+    "RelativePath": "api/User/check-transpassword-exist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -448,6 +850,22 @@
         "Name": "FileName",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.UserController",
+    "Method": "UploadDigitalSignature",
+    "RelativePath": "api/User/upload-digital-signature",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "digitalSignatureImageUrl",
+        "Type": "System.String",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

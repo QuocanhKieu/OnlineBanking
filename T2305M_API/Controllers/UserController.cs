@@ -247,6 +247,118 @@ namespace T2305M_API.Controllers
             }
         }
 
+        [HttpGet("check-transpassword-exist")]
+        public async Task<ActionResult<object>> CheckTranspasswordExist()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Please input valid user information."
+                    });
+                }
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
+
+                int userId = int.Parse(userIdClaim);
+                var isExist = await _userService.CheckTransPasswordExistAsync(userId);
+                if (isExist)
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Please Create TransPassword first"
+                    });
+                }
+                return Ok(
+                new
+                {
+                    message = "TransPassword exixts!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
+
+
+        [HttpGet("check-having-digital-signature")]
+        public async Task<IActionResult> CheckHavingSignature()
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
+
+                int userId = int.Parse(userIdClaim);
+
+                //var isHavingInProgressCheckBook = await _checkBookService.CheckHavingInProgressCheckBookAsync(queryParameters);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+
+                if (!string.IsNullOrEmpty(user.DigitalSignature))
+                {
+                    return BadRequest(new
+                    {
+                        message = "Dont have digital signature. Provide your digital signature to continue",
+                    });
+                }
+
+                return Ok(new
+                {
+                    message = "Having digital signature, qualified to continue",
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
+
+        [HttpPost("upload-digital-signature")]
+        public async Task<IActionResult> UploadDigitalSignature([FromBody] string digitalSignatureImageUrl )
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "Invalid token or user not authenticated" });
+                }
+
+                int userId = int.Parse(userIdClaim);
+                if (!string.IsNullOrEmpty(digitalSignatureImageUrl))
+                {
+                    return BadRequest(new
+                    {
+                        code = 1,
+                        message = "Digital Signature ImageUrl is required",
+                    });
+                }
+                //var isHavingInProgressCheckBook = await _checkBookService.CheckHavingInProgressCheckBookAsync(queryParameters);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+                user.DigitalSignature = digitalSignatureImageUrl;
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
+                return Ok("Uploaded digital signature");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
+            }
+        }
     }
 }
 

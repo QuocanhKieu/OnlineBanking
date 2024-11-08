@@ -43,6 +43,7 @@ namespace T2305M_API.Services.Implements
                    CustomerId = userEntity.CustomerId,
                    Phone = userEntity.Phone,
                    Name = userEntity.Name,
+                   Email = userEntity.Email,
                    CitizenId = userEntity.CitizenId,
                    CitizenIdFront = userEntity.CitizenIdFront,
                    CitizenIdRear = userEntity.CitizenIdRear,
