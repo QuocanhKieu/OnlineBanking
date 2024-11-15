@@ -65,6 +65,8 @@ namespace T2305M_API.DTO.CheckBook
     public class StopCheckbookRequest
     {
         public string CheckBookCode { get; set; }
+        [Required]
+        public string Otp { get; set; } // Customer message
     }
 
 
@@ -78,6 +80,8 @@ namespace T2305M_API.DTO.CheckBook
             get { return _pageSize; }
             set { _pageSize = value > maxPageSize ? maxPageSize : value; }
         }
+        public string? CheckBookCode { get; set; }
+        public string? Status { get; set; }
         public int? UserId { get; set; }
         public string? AccountNumber { get; set; }
         public string? SortColumn { get; set; } = "StatusChangedDate";

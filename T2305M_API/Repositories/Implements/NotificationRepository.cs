@@ -30,6 +30,7 @@ namespace T2305M_API.Repositories.Implements
                     {
                         Content = createBasicNotificationDTO.Content,
                         UserId = createBasicNotificationDTO.UserId,
+                        Target = createBasicNotificationDTO.Target
                     };
 
                     await _context.Notifications.AddAsync(notification);

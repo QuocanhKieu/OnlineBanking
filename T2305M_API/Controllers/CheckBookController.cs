@@ -29,20 +29,23 @@ namespace T2305M_API.Controllers
         private readonly ITransactionRepository _transactionRepository;
         private readonly T2305mApiContext _context;
         private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
+
 
         public CheckBookController(
             ICheckBookService checkBookService,
             ICheckBookRepository checkBookRepository,
             ITransactionRepository transactionRepository,
             T2305mApiContext context,
-                        IUserService userService)
+                        IUserService userService,
+                        IAccountService accountService)
         {
             _checkBookService = checkBookService;
             _checkBookRepository = checkBookRepository;
             _transactionRepository = transactionRepository;
             _context = context;
             _userService = userService;
-
+            _accountService = accountService;
         }
 
         [HttpGet("list-checkbooks")]
@@ -63,14 +66,20 @@ namespace T2305M_API.Controllers
                 {
                     return Unauthorized(new { message = "Invalid token or user not authenticated" });
                 }
+                int userId = int.Parse(userIdClaim);
+                var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+                if (userRole == "USER")
+                {
+                    queryParameters.UserId = userId;
+                }
+
                 if (!string.IsNullOrEmpty(queryParameters.AccountNumber))
                 {
                     var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber == queryParameters.AccountNumber);
 
                     if (existingAccount == null) return BadRequest(new { message = "AccountNumber not found" });
                 }
-                int userId = int.Parse(userIdClaim);
-                queryParameters.UserId = userId;
+               
                 var paginatedResult = await _checkBookService.GetCheckBooksAsync(queryParameters);
                 return Ok(new
                 {
@@ -160,6 +169,11 @@ namespace T2305M_API.Controllers
                 }
 
                 int userId = int.Parse(userIdClaim);
+                var emailClaim = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (emailClaim == null)
+                {
+                    return Unauthorized(new { message = "Email claim is missing" });
+                }
 
                 // Ensure the checkBookCode parameter is provided
                 if (string.IsNullOrEmpty(stopCheckbookRequest.CheckBookCode))
@@ -169,6 +183,13 @@ namespace T2305M_API.Controllers
                         code = 1,
                         message = "checkBookCode is required",
                     });
+                }
+
+
+                bool isOtpValid = await _accountService.VerifyOtpAsync(emailClaim, stopCheckbookRequest.Otp);
+                if (!isOtpValid)
+                {
+                    return BadRequest("Invalid or expired OTP.");
                 }
 
                 // Find the checkbook based on the user ID and checkBookCode

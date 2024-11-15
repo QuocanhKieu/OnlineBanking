@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using T2305M_API.Models;
 using T2305M_API.DTO.AutoMapping;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 
 
@@ -96,6 +97,7 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICheckBookService, CheckBookService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddHttpContextAccessor();
 
 
 // Register EmailService

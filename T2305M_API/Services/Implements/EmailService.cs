@@ -9,10 +9,13 @@ namespace T2305M_API.Services.Implements
     public class EmailService
     {
         private readonly SmtpSettings _smtpSettings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmailService(IOptions<SmtpSettings> smtpSettings)
+
+        public EmailService(IOptions<SmtpSettings> smtpSettings, IHttpContextAccessor httpContextAccessor)
         {
             _smtpSettings = smtpSettings.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task SendEmailAsync(string to, string subject, string body)

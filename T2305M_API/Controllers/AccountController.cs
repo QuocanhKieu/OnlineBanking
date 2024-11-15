@@ -34,6 +34,7 @@ namespace T2305M_API.Controllers
         private readonly ITransactionRepository _transactionRepository;
         private readonly IUserService _userService;
         private readonly INotificationRepository _notificationRepository;
+        private readonly EmailService _emailService;
 
         private readonly T2305mApiContext _context;
 
@@ -43,7 +44,8 @@ namespace T2305M_API.Controllers
             ITransactionRepository transactionRepository,
             IUserService userService,
             INotificationRepository notificationRepository,
-            T2305mApiContext context)
+            T2305mApiContext context,
+            EmailService emailService)
         {
             _accountService = accountService;
             _accountRepository = accountRepository;
@@ -51,6 +53,7 @@ namespace T2305M_API.Controllers
             _context = context;
             _userService = userService;
             _notificationRepository = notificationRepository;
+            _emailService = emailService;
         }
 
         [HttpGet("list-user-accounts")]
@@ -381,7 +384,7 @@ namespace T2305M_API.Controllers
                     TransactionDescription = $"Funds Transfered To {newTransaction.DesAccountNumber}",
                     TransactionDateTime = newTransaction.TransactionDate
                 });
-                await _notificationRepository.CreateNotificationAsync(new CreateBasicNotificationDTO { UserId = userId, Content = sourceAccountBalanceChangeNotificationContent });
+                await _notificationRepository.CreateNotificationAsync(new CreateBasicNotificationDTO { UserId = userId, Content = sourceAccountBalanceChangeNotificationContent, Target= "USER" });
 
                 var desAccountBalanceChangeNotificationContent = NotificationHelper.GenerateBalanceChangeNotification(new NotificationHelper.BalanceChangeDTO
                 {
@@ -394,7 +397,39 @@ namespace T2305M_API.Controllers
                     TransactionDescription = $"Funds Transfered From {newTransaction.SourceAccountNumber}",
                     TransactionDateTime = newTransaction.TransactionDate
                 });
-                await _notificationRepository.CreateNotificationAsync(new CreateBasicNotificationDTO { UserId = newTransaction.DesAccount.UserId, Content = desAccountBalanceChangeNotificationContent });
+                await _notificationRepository.CreateNotificationAsync(new CreateBasicNotificationDTO { UserId = newTransaction.DesAccount.UserId, Content = desAccountBalanceChangeNotificationContent, Target = "USER" });
+
+                // send mail
+                string templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Templates", "EmailTemplate", "TransactionGmailTemplate.html");
+                var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+                //var baseUrl = "http://localhost:5018";
+                // create specific iamge relative url
+                var headerImageUrl = $"{baseUrl}/uploads/images/header.png";
+                var footerImageUrl = $"{baseUrl}/uploads/images/footer.png";
+                var placeholders = new Dictionary<string, string>
+                {
+                    { "{{Title}}", "Cảm ơn Quý khách đã sử dụng dịch vụ MB eBanking.<br>MB xin thông báo giao dịch của Quý khách đã được thực hiện như sau:<br><br>" },
+                    { "{{HeaderImageUrl}}", headerImageUrl },
+                    { "{{FooterImageUrl}}", footerImageUrl },
+                    { "{{TransactionDate}}", newTransaction.TransactionDate.ToString("dd-MM-yyyy HH:mm:ss") },
+                    { "{{TransactionType}}", newTransaction.TransactionType },
+                    { "{{TransactionCode}}", newTransaction.TransactionCode },
+                    { "{{Currency}}", "USD" },
+                    { "{{SrcAccountNumber}}", newTransaction.SourceAccountNumber },
+                    { "{{SrcUserName}}", newTransaction.SourceAccount.User.Name },
+                    { "{{DesAccountNumber}}", newTransaction.DesAccountNumber },
+                    { "{{DesUserName}}", newTransaction.DesAccount.User.Name },
+                    { "{{TransactionAmount}}", newTransaction.Amount.ToString("N2") }, // Formatting to 2 decimal places
+                    { "{{TransactionMessage}}", newTransaction.TransactionMessage }
+                };
+                // Send email
+                await _emailService.SendEmailTemplateAsync(
+                    to: emailClaim,
+                    subject: "Successful Transaction Notification",
+                    templateFilePath: templateFilePath,
+                    placeholders: placeholders
+                );
+
 
 
                 return Ok(new AfterSuccessTransactionDTO

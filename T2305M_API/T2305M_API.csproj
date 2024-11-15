@@ -41,6 +41,5 @@
   <ItemGroup>
     <Folder Include="Enums\" />
     <Folder Include="wwwroot\Reports\" />
-    <Folder Include="wwwroot\uploads\images\" />
   </ItemGroup>
 </Project>

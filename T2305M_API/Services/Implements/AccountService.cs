@@ -11,6 +11,7 @@ using ClosedXML.Excel;
 using Azure;
 using T2305M_API.DTO.Transaction;
 using T2305M_API.Services.Implements;
+using Azure.Core;
 
 public class AccountService : IAccountService
 {
@@ -19,18 +20,24 @@ public class AccountService : IAccountService
     private readonly T2305mApiContext _context;
     private readonly ITransactionService _transactionService;
     private readonly EmailService _emailService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
 
     public AccountService(IAccountRepository accountRepository,
         IWebHostEnvironment env,
             ITransactionService transactionService,
         T2305mApiContext context,
-        EmailService emailService)
+        EmailService emailService
+        , IHttpContextAccessor httpContextAccessor
+
+        )
     {
         _accountRepository = accountRepository;
         _env = env;
         _context = context;
         _transactionService = transactionService;
         _emailService = emailService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<PaginatedResult<GetBasicAccountDTO>> GetBasicAccountsAsync(AccountQueryParameters queryParameters)
@@ -79,7 +86,7 @@ public class AccountService : IAccountService
 
     public async Task<GetDetailAccountDTO> GetDetailAccountDTOAsync(string accountNumber, int userId)
     {
-        var existingAccount = await _context.Accounts.FirstOrDefaultAsync(u => u.AccountNumber == accountNumber && u.UserId== userId);
+        var existingAccount = await _context.Accounts.FirstOrDefaultAsync(u => u.AccountNumber == accountNumber && u.UserId == userId);
 
         if (existingAccount == null)
         {
@@ -98,7 +105,7 @@ public class AccountService : IAccountService
 
         return detailAccountDTO;
     }
-    public async Task<Account> UpdateAccountBalance(decimal newBalance , string accountNumber)
+    public async Task<Account> UpdateAccountBalance(decimal newBalance, string accountNumber)
     {
         var account = await _context.Accounts.FirstOrDefaultAsync(u => u.AccountNumber == accountNumber);
         if (account == null)
@@ -116,7 +123,7 @@ public class AccountService : IAccountService
         string templatePath = Path.Combine(_env.WebRootPath, "Templates", "ExcelTemplate", "account_statement.xlsx");
         string reportFolder = Path.Combine(_env.WebRootPath, "Reports");
         string documentName = $"AccountStatement-{queryParameters.AccountNumber}-{DateTime.Now:yyyyMMddHHmmss}.xlsx";
-        string fullPath = Path.Combine(reportFolder, documentName); 
+        string fullPath = Path.Combine(reportFolder, documentName);
 
         // Ensure the report directory exists
         if (!Directory.Exists(reportFolder))
@@ -127,7 +134,7 @@ public class AccountService : IAccountService
         try
         {
             // Fetch transactions for the account
-            List<GetBasicTransactionDTO>  allBasicTransactionsList = await _transactionService.GetAllBasicTransactionsAsync(queryParameters);
+            List<GetBasicTransactionDTO> allBasicTransactionsList = await _transactionService.GetAllBasicTransactionsAsync(queryParameters);
             var firstTransaction = allBasicTransactionsList.FirstOrDefault();
             var lastTransaction = allBasicTransactionsList.LastOrDefault();
             decimal totalDebit = 0;
@@ -154,9 +161,9 @@ public class AccountService : IAccountService
 
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == queryParameters.UserId);
 
-                worksheet.Cell(10, 1).Value = "Customer: "+ user.Name;
-                worksheet.Cell(11, 1).Value = "Email: "+ user.Email;
-                worksheet.Cell(12, 1).Value = "Address: "+user.Address;
+                worksheet.Cell(10, 1).Value = "Customer: " + user.Name;
+                worksheet.Cell(11, 1).Value = "Email: " + user.Email;
+                worksheet.Cell(12, 1).Value = "Address: " + user.Address;
                 worksheet.Cell(14, 1).Value = "Phone: " + user.Phone;
                 worksheet.Cell(13, 13).Value = lastTransaction.BalanceAfter;
                 worksheet.Cell(13, 13).Style.NumberFormat.Format = "0.00"; // or "0.00" for two decimal places
@@ -165,7 +172,7 @@ public class AccountService : IAccountService
                 beginningBalanceCell.Value = beginningBalance;
                 beginningBalanceCell.Style.NumberFormat.Format = "0.00"; // or "0.00" for two decimal places
 
-                var account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber== queryParameters.AccountNumber);
+                var account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountNumber == queryParameters.AccountNumber);
 
                 var currentBalanceCell = worksheet.Cell(19, 13);
                 currentBalanceCell.Value = account.Balance.ToString();
@@ -221,7 +228,7 @@ public class AccountService : IAccountService
         var otp = new Random().Next(10000000, 99999999).ToString();
 
         // Set expiry time to 60 seconds from now
-        var expiryTime = DateTime.UtcNow.AddSeconds(180);
+        var expiryTime = DateTime.UtcNow.AddSeconds(60 * 5);
 
         // Retrieve the user by email
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
@@ -240,11 +247,35 @@ public class AccountService : IAccountService
 
     public async Task SendOtpEmailAsync(string email, string otp)
     {
-        var subject = "Your OTP Code";
-        var message = $"Your OTP code is {otp}. It will expire in 60 seconds.";
+        //var subject = "Your OTP Code";
+        //var message = $"Your OTP code is {otp}. It will expire in 180 seconds.";
 
-        // Configure and send the email (use your email service here)
-        await _emailService.SendEmailAsync(email, subject, message);
+        //// Configure and send the email (use your email service here)
+        //await _emailService.SendEmailAsync(email, subject, message);
+        var request = _httpContextAccessor.HttpContext.Request;
+
+        string templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Templates", "EmailTemplate", "Common.html");
+        var baseUrl = $"{request.Scheme}://{request.Host}{request.PathBase}";
+        //var baseUrl = "http://localhost:5018";
+        // create specific iamge relative url
+        var headerImageUrl = $"{baseUrl}/uploads/images/header.png";
+        var footerImageUrl = $"{baseUrl}/uploads/images/footer.png";
+        var placeholders = new Dictionary<string, string>
+                {
+                    { "{{Title}}", "" },
+                    { "{{HeaderImageUrl}}", headerImageUrl },
+                    { "{{FooterImageUrl}}", footerImageUrl },
+                    { "{{Content}}", $"Your OTP code is <span style=\" font-size: 2em \">{otp}</span>. It will expire in 180 seconds." }
+                    
+                };
+        // Send email
+        await _emailService.SendEmailTemplateAsync(
+            to: email,
+            subject: "Your OTP Code",
+            templateFilePath: templateFilePath,
+            placeholders: placeholders
+        );
+
     }
 
     public async Task<bool> VerifyOtpAsync(string email, string otp)

@@ -15,6 +15,7 @@ namespace T2305M_API.DTO.Notification
         public int UserId { get; set; }
         [Required]
         public string Content { get; set; }
+        public string Target { get; set; } //UESR, ADMIN
     }
     public class NotificationQueryParameters
     {

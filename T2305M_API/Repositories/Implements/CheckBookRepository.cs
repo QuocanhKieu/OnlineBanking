@@ -36,6 +36,16 @@ public class CheckBookRepository : ICheckBookRepository
                 query = query.Where(cb => cb.Account.AccountNumber == queryParameters.AccountNumber);
             }
 
+            if (!string.IsNullOrEmpty(queryParameters.CheckBookCode))
+            {
+                query = query.Where(cb => cb.CheckBookCode.Contains(queryParameters.CheckBookCode));
+            }
+
+            if (!string.IsNullOrEmpty(queryParameters.Status))
+            {
+                query = query.Where(cb => cb.Status == queryParameters.Status);
+            }
+
             if (!string.IsNullOrEmpty(queryParameters.SortColumn))
             {
                 bool isDescending = queryParameters.SortOrder?.ToLower() == "desc";

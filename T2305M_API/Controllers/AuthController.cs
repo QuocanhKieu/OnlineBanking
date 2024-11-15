@@ -17,17 +17,20 @@ namespace T2305M_API.Controllers
         private readonly IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
         private readonly EmailService _emailService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
 
         public AuthController(T2305mApiContext context,
             IConfiguration configuration,
             ILogger<AuthController> logger,
-             EmailService emailService)
+             EmailService emailService,
+             IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _config = configuration;
             _logger = logger;
             _emailService = emailService;
-
+            _httpContextAccessor = httpContextAccessor;
         }
 
         private string GenJWT(User user)
@@ -197,27 +200,27 @@ namespace T2305M_API.Controllers
         <a href='{confirmationUrl}'>Confirm Email</a>
         <p>If you did not register for this account, please ignore this email.</p>";
 
-            // Send the email (this method depends on your email sending library/service)
-            //string templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Templates", "EmailTemplate", "UserArticleSubmit.html");
+            string templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Templates", "EmailTemplate", "Common.html");
+            // create specific iamge relative url
+            var headerImageUrl = $"{baseUrl}/uploads/images/header.png";
+            var footerImageUrl = $"{baseUrl}/uploads/images/footer.png";
+            var placeholders = new Dictionary<string, string>
+                {
+                    { "{{Title}}", "" },
+                    { "{{HeaderImageUrl}}", headerImageUrl },
+                    { "{{FooterImageUrl}}", footerImageUrl },
+                    { "{{Content}}", body }
 
-            //var placeholders = new Dictionary<string, string>
-            //        {
-            //            { "{title}", "Congratulations! We received you Story, will take a review, and approve soon!" },
-            //            { "{userName}", userEmailClaim},
-            //        };
+                };
+            // Send email
+            await _emailService.SendEmailTemplateAsync(
+                to: email,
+                subject: subject,
+                templateFilePath: templateFilePath,
+                placeholders: placeholders
+            );
 
-            //// List of dynamic ticket codes
 
-            //// Send email
-            //await _emailService.SendEmailTemplateAsync(
-            //    to: userEmailClaim,
-            //    subject: "Your Story has been submitted! Thank you!",
-            //    templateFilePath: templateFilePath,
-            //    placeholders: placeholders,
-            //    ticketCodes: new List<string>()
-            //);
-
-            await _emailService.SendEmailAsync(email, subject, body);
         }
 
         [HttpGet("confirm-email")]
@@ -285,7 +288,7 @@ namespace T2305M_API.Controllers
                         return Unauthorized(new
                         {
                             code = 3,
-                            message = "Your Account is Locked, Please Contact Us for more infomation.",
+                            message = "Your Account is Locked, Please Contact Admin for more infomation.",
                         });
                     }
 
@@ -326,13 +329,33 @@ namespace T2305M_API.Controllers
         private async void SendAccountLockedEmail(string email)
         {
             // Email content
-            var subject = "Sadly, Your Account is temporarily locked";
+            var subject = "Your Account is temporarily locked";
             var body = $@"
         <p>Dear User,</p>
         <p>Sadly, Your Account is temporarily locked due to multiple failed login attemps. For more infomation, please contact us via.</p>
         <p>If you did not recognize this email, please ignore it.</p>";
 
-            await _emailService.SendEmailAsync(email, subject, body);
+            string templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Templates", "EmailTemplate", "Common.html");
+            // create specific iamge relative url
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
+            var headerImageUrl = $"{baseUrl}/uploads/images/header.png";
+            var footerImageUrl = $"{baseUrl}/uploads/images/footer.png";
+            var placeholders = new Dictionary<string, string>
+                {
+                    { "{{Title}}", "" },
+                    { "{{HeaderImageUrl}}", headerImageUrl },
+                    { "{{FooterImageUrl}}", footerImageUrl },
+                    { "{{Content}}", body }
+
+                };
+            // Send email
+            await _emailService.SendEmailTemplateAsync(
+                to: email,
+                subject: subject,
+                templateFilePath: templateFilePath,
+                placeholders: placeholders
+            );
         }
 
 
@@ -382,9 +405,9 @@ namespace T2305M_API.Controllers
         {
             //var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
-            var baseUrl = _config["ClientUrl"]; // Get the frontend base URL from configuration
+            var clientUrl = _config["ClientUrl"]; // Get the frontend base URL from configuration
             var resetPasswordRoute = "/api/auth/reset-password";
-            var resetLink = $"{baseUrl}{resetPasswordRoute}?token={token}";
+            var resetLink = $"{clientUrl}{resetPasswordRoute}?token={token}";
 
             // Email content
             var subject = "Request to reset password";
@@ -394,8 +417,27 @@ namespace T2305M_API.Controllers
         <a href='{resetLink}'>Reset Password</a>
         <p>If you did not request this, please ignore this email.</p>";
 
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
-            await _emailService.SendEmailAsync(email, subject, body);
+            string templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Templates", "EmailTemplate", "Common.html");
+            // create specific iamge relative url
+            var headerImageUrl = $"{baseUrl}/uploads/images/header.png";
+            var footerImageUrl = $"{baseUrl}/uploads/images/footer.png";
+            var placeholders = new Dictionary<string, string>
+         {
+             { "{{Title}}", "" },
+             { "{{HeaderImageUrl}}", headerImageUrl },
+             { "{{FooterImageUrl}}", footerImageUrl },
+             { "{{Content}}", body }
+
+         };
+            // Send email
+            await _emailService.SendEmailTemplateAsync(
+                to: email,
+                subject: subject,
+                templateFilePath: templateFilePath,
+                placeholders: placeholders
+            );
         }
 
         [HttpPost]

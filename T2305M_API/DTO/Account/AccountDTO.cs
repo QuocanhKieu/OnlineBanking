@@ -61,6 +61,7 @@ namespace T2305M_API.DTO.Account
         //[RegularExpression(@"^\d{8}$", ErrorMessage = "Transaction password must be exactly 8 numeric digits.")]
         //public string TransPassword { get; set; } // 8-digit pin password
         public string? TransactionMessage { get; set; } // Customer message
+        [Required]
         public string Otp { get; set; } // Customer message
     }
 
