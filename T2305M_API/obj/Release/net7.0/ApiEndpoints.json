@@ -675,6 +675,157 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "T2305M_API.Controllers.SavingsAccountController",
+    "Method": "CalculateInterest",
+    "RelativePath": "api/SavingsAccount/calculate-estimated-interest",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DepositAmount",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Months",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "Term",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.SavingsAccountController",
+    "Method": "CheckAccountBalance",
+    "RelativePath": "api/SavingsAccount/check-account-balance",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AccountNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MoneyAmount",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.SavingsAccountController",
+    "Method": "CreateSavingsAccount",
+    "RelativePath": "api/SavingsAccount/create-savings-account",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createSavingAccountDTO",
+        "Type": "T2305M_API.DTO.SavingsAccount.CreateSavingAccountDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.SavingsAccountController",
+    "Method": "GetDetailSavingsAccountDTO",
+    "RelativePath": "api/SavingsAccount/get-detail-savings-account/{savingsAccountNumber}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "savingsAccountNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "T2305M_API.DTO.SavingsAccount.GetDetailSavingsAccountDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.SavingsAccountController",
+    "Method": "ListUserSavingsAccounts",
+    "RelativePath": "api/SavingsAccount/list-user-savings-accounts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Userid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortColumn",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "T2305M_API.Controllers.SavingsAccountController",
+    "Method": "WithdrawFromSavings",
+    "RelativePath": "api/SavingsAccount/withdraw-savings-account",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "withdrawFromSavingsDTO",
+        "Type": "T2305M_API.DTO.SavingsAccount.WithdrawFromSavingsDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "T2305M_API.Controllers.TransactionController",
     "Method": "FindONeTrans",
     "RelativePath": "api/Transaction/find-one-Transactions",

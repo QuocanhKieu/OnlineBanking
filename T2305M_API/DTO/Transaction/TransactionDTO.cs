@@ -9,9 +9,9 @@ namespace T2305M_API.DTO.Transaction
     public class GetBasicTransactionDTO
     {
         public string TransactionType { get; set; } // BANKTRANSFER, CHECKPAYMENT
-        public string SourceAccountNumber { get; set; }
+        public string? SourceAccountNumber { get; set; }
         public string? DesAccountNumber { get; set; }
-        public int SourceAccountId { get; set; }
+        public int? SourceAccountId { get; set; }
         public int? DesAccountId { get; set; }
         public string SourceUserName { get; set; } 
         public string? DesUserName { get; set; } 

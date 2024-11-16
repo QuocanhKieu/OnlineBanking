@@ -91,7 +91,7 @@ namespace T2305M_API.Controllers
                     SourceUserName = transaction.SourceAccount.User.Name,
                     DesUserName = transaction.DesAccount.User.Name,
                     DesAccountId = transaction.DesAccountId,
-                    SourceAccountId = transaction.SourceAccountId,
+                    SourceAccountId = transaction.SourceAccountId.Value,
                     TransactionMesage = transaction.TransactionMessage,
                     TransactionCode = transaction.TransactionCode
                 });

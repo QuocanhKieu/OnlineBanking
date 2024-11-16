@@ -8,10 +8,10 @@ namespace T2305M_API.Entities
         [Key]
         public int TransactionId { get; set; } // auto-increment
         public string? TransactionCode { get; set; }  // Adjust the type if needed
-        public int SourceAccountId { get; set; }
+        public int? SourceAccountId { get; set; }
         public int? DesAccountId { get; set; }
         public string TransactionType{ get; set; } // BANKTRANSFER, CHECKPAYMENT
-        public string SourceAccountNumber { get; set; }
+        public string? SourceAccountNumber { get; set; }
         public string? DesAccountNumber { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }

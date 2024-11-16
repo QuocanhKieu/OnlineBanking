@@ -25,6 +25,7 @@ public partial class T2305mApiContext : DbContext
     public DbSet<CheckBook> CheckBooks { get; set; }
     public DbSet<ServiceRequest> ServiceRequests { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<SavingsAccount> SavingsAccounts { get; set; }  
 
 
 

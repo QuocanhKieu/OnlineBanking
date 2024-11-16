@@ -154,8 +154,6 @@ namespace T2305M_API.Controllers
         }
 
 
-
-
         [HttpPut("stop-checkbook")]
         public async Task<IActionResult> StopCheckbook([FromBody] StopCheckbookRequest stopCheckbookRequest)
         {
@@ -258,7 +256,7 @@ namespace T2305M_API.Controllers
                     //var isSuccesfulCreateRelatedChecks = await _checkBookService.CreateChecksAsync(checkbook, 50);
 
                     await transaction.CommitAsync();
-                    return Ok("Approve Check Book Successfully and Checks has ");
+                    return Ok("Approve Check Book Successfully");
                 }
                 catch (Exception ex) // Catch other exceptions
                 {
@@ -267,9 +265,6 @@ namespace T2305M_API.Controllers
                 }
             }
         }
-
-
-
 
 
         [HttpPost("change-checkbook-to-shipping")]

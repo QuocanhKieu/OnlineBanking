@@ -96,6 +96,8 @@ builder.Services.AddScoped<ICheckBookRepository, CheckBookRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICheckBookService, CheckBookService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<ISavingsAccountRepository, SavingsAccountRepository>();
+builder.Services.AddScoped<ISavingsAccountService, SavingsAccountService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddHttpContextAccessor();
 
