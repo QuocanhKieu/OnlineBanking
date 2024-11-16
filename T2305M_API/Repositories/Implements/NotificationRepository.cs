@@ -22,7 +22,7 @@ namespace T2305M_API.Repositories.Implements
 
         public async Task<Notification> CreateNotificationAsync(CreateBasicNotificationDTO createBasicNotificationDTO)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            
             {
                 try
                 {
@@ -35,7 +35,6 @@ namespace T2305M_API.Repositories.Implements
 
                     await _context.Notifications.AddAsync(notification);
                     await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
 
 
                     return notification;

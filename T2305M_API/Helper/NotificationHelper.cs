@@ -17,13 +17,13 @@ namespace T2305M_API.Helper
         }
         public class BalanceChangeDTO
         {
-            public string AccountNumber { get; set; }
-            public string Currency { get; set; }
-            public string TransactionType { get; set; }
-            public string TransactionDescription { get; set; }
-            public string TransactionCode { get; set; }
-            public string TransactionAmount { get; set; } // - or +
-            public decimal NewBalance { get; set; } 
+            public string? AccountNumber { get; set; }
+            public string? Currency { get; set; }
+            public string? TransactionType { get; set; }
+            public string? TransactionDescription { get; set; }
+            public string? TransactionCode { get; set; }
+            public string? TransactionAmount { get; set; } // - or +
+            public decimal? NewBalance { get; set; } 
             public DateTime TransactionDateTime { get; set; }
         }
     }

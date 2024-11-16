@@ -199,7 +199,7 @@ public class TransactionRepository : ITransactionRepository
     public async Task<Transaction> CreateTransactionAsync(CreateTransactionDTO createTransactionDTO)
     {
         // Start a new transaction
-        using (var transaction = await _context.Database.BeginTransactionAsync())
+
         {
             try
             {
@@ -207,10 +207,10 @@ public class TransactionRepository : ITransactionRepository
                 var transactionTypeParam = new SqlParameter("@TransactionType", createTransactionDTO.TransactionType ?? (object)DBNull.Value);
                 var sourceAccountNumberParam = new SqlParameter("@SourceAccountNumber", createTransactionDTO.SourceAccountNumber ?? (object)DBNull.Value);
                 var desAccountNumberParam = new SqlParameter("@DesAccountNumber", createTransactionDTO.DesAccountNumber ?? (object)DBNull.Value);
-                var sourceAccountIdParam = new SqlParameter("@SourceAccountId", createTransactionDTO.SourceAccountId);
+                var sourceAccountIdParam = new SqlParameter("@SourceAccountId", createTransactionDTO.SourceAccountId ?? (object)DBNull.Value);
                 var desAccountIdParam = new SqlParameter("@DesAccountId", createTransactionDTO.DesAccountId ?? (object)DBNull.Value);
-                var amountParam = new SqlParameter("@Amount", createTransactionDTO.Amount);
-                var sourceBalanceAfterParam = new SqlParameter("@SourceAccountBalanceAfter", createTransactionDTO.SourceAccountBalanceAfter);
+                var amountParam = new SqlParameter("@Amount", createTransactionDTO.Amount );
+                var sourceBalanceAfterParam = new SqlParameter("@SourceAccountBalanceAfter", createTransactionDTO.SourceAccountBalanceAfter ?? (object)DBNull.Value);
                 var desBalanceAfterParam = new SqlParameter("@DesAccountBalanceAfter", createTransactionDTO.DesAccountBalanceAfter ?? (object)DBNull.Value);
                 var descriptionParam = new SqlParameter("@TransactionDescription", createTransactionDTO.TransactionDescription ?? (object)DBNull.Value);
                 var messageParam = new SqlParameter("@TransactionMessage", createTransactionDTO.TransactionMessage ?? (object)DBNull.Value);
@@ -231,7 +231,6 @@ public class TransactionRepository : ITransactionRepository
                     .ToListAsync();
 
                 // Commit the transaction if the stored procedure executed successfully
-                await transaction.CommitAsync();
 
                 // Return the first result, as we expect only one inserted record
                 return result.FirstOrDefault();

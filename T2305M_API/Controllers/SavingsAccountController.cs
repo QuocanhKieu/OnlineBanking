@@ -39,19 +39,6 @@ namespace T2305M_API.Controllers
         private readonly INotificationRepository _notificationRepository;
         private readonly EmailService _emailService;
         private readonly T2305mApiContext _context;
-
-
-//        private static readonly List<InterestRateRange> InterestRateTable = new List<InterestRateRange>
-//{
-//    new InterestRateRange { StartMonth = 1, EndMonth = 1, InterestRate = 0.002M }, // 1 month
-//    new InterestRateRange { StartMonth = 2, EndMonth = 3, InterestRate = 0.017M }, // 2 to 3 months
-//    new InterestRateRange { StartMonth = 4, EndMonth = 6, InterestRate = 0.02M },  // 4 to 6 months
-//    new InterestRateRange { StartMonth = 7, EndMonth = 12, InterestRate = 0.03M }, // 7 to 12 months
-//    new InterestRateRange { StartMonth = 13, EndMonth = 18, InterestRate = 0.04M }, // 14 to 18 months
-//    new InterestRateRange { StartMonth = 19, EndMonth = int.MaxValue, InterestRate = 0.05M } // Above 36 months
-//};
-
-
         public SavingsAccountController(
             IAccountService accountService,
             IAccountRepository accountRepository,
@@ -65,21 +52,15 @@ namespace T2305M_API.Controllers
         {
             _accountService = accountService;
             _accountRepository = accountRepository;
-            //_savingsSavingsAccountService = savingsAccountService;
-            //_savingsSavingsAccountRepository = savingsAccountRepository;
+            _savingsAccountService = savingsAccountService;
+            _savingsAccountRepository = savingsAccountRepository;
             _transactionRepository = transactionRepository;
             _context = context;
             _userService = userService;
             _notificationRepository = notificationRepository;
             _emailService = emailService;
         }
-        //public decimal GetInterestRate(int termInMonths)
-        //{
-        //    var rateEntry = InterestRateTable
-        //        .FirstOrDefault(entry => termInMonths >= entry.StartMonth && termInMonths <= entry.EndMonth);
 
-        //    return rateEntry?.InterestRate ?? 0M; // Return 0 if no match is found
-        //}
 
         [HttpGet("list-user-savings-accounts")]
         public async Task<IActionResult> ListUserSavingsAccounts([FromQuery] SavingsAccountQueryParameters savingsSavingsAccountQueryParameters)
@@ -160,7 +141,7 @@ namespace T2305M_API.Controllers
         [HttpPost("create-savings-account")]
         public async Task<IActionResult> CreateSavingsAccount([FromBody] CreateSavingAccountDTO createSavingAccountDTO)
         {
-            using var transaction = _context.Database.BeginTransaction();
+            //using var transaction = _context.Database.BeginTransaction();
             try
             {
                 if (!ModelState.IsValid)
@@ -188,13 +169,13 @@ namespace T2305M_API.Controllers
                 {
                     return BadRequest("Invalid or expired OTP.");
                 }
-                var sourceAccount = await _accountService.CheckExistingAccountAsync(new CheckDuplicateAccountDTO { AccountNumber = createSavingAccountDTO.SourceAccountNumber });
+                var sourceAccount = await _context.Accounts.FirstOrDefaultAsync(acc=> acc.AccountNumber == createSavingAccountDTO.SourceAccountNumber && acc.UserId == userId);
                 if (sourceAccount == null)
                 {
                     return BadRequest(new
                     {
                         code = 3,
-                        message = "SourceAccountNumber does not exist"
+                        message = "SourceAccountNumber does not exist or does not belong to you."
                     });
                 }
 
@@ -211,8 +192,6 @@ namespace T2305M_API.Controllers
                 };
 
                 _context.SavingsAccounts.Add(newSavingsAccount);
-                await _context.SaveChangesAsync();
-
 
                 var createTransactionDTO = new CreateTransactionDTO
                 {
@@ -229,7 +208,7 @@ namespace T2305M_API.Controllers
                 createTransactionDTO.TransactionDescription = $"Deposit Savings Received From: {createSavingAccountDTO.SourceAccountNumber} | TransCode: {createTransactionDTO.TransactionCode}";
 
                 var newTransaction = await _transactionRepository.CreateTransactionAsync(createTransactionDTO);
-                var updatedSourceAccount = await _accountService.UpdateAccountBalance(newTransaction.SourceAccountBalanceAfter, newTransaction.SourceAccountNumber);
+                var updatedSourceAccount = await _accountService.UpdateAccountBalance(newTransaction.SourceAccountBalanceAfter.Value, newTransaction.SourceAccountNumber);
                 //if (newTransaction.DesAccountBalanceAfter != null && newTransaction.DesAccountNumber != null)
                 //{
                 //    var updatedDesAccount = await _accountService.UpdateAccountBalance(newTransaction.DesAccountBalanceAfter.Value, newTransaction.DesAccountNumber);
@@ -281,8 +260,11 @@ namespace T2305M_API.Controllers
                 );
 
 
-                await transaction.CommitAsync();
-                return Ok(new AfterSuccessTransactionDTO
+
+                await _context.SaveChangesAsync();
+
+                //await transaction.CommitAsync();
+                return Ok(new 
                 {
                     TransactionCode = newTransaction.TransactionCode,
                     SourceAccountNumber = newTransaction.SourceAccountNumber,
@@ -297,13 +279,13 @@ namespace T2305M_API.Controllers
 
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
+                //await transaction.RollbackAsync();
                 return StatusCode(500, new { messsage = "Internal server error: " + ex.Message });
             }
         }
 
-        [HttpGet("get-detail-savings-account/{savingsAccountNumber}")]
-        public async Task<ActionResult<GetDetailSavingsAccountDTO>> GetDetailSavingsAccountDTO(string savingsAccountNumber)
+        [HttpGet("get-detail-savings-account/{savingsAccountCode}")]
+        public async Task<ActionResult<GetDetailSavingsAccountDTO>> GetDetailSavingsAccountDTO(string savingsAccountCode)
         {
             try
             {
@@ -322,7 +304,7 @@ namespace T2305M_API.Controllers
                 }
 
                 int userId = int.Parse(userIdClaim);
-                var detailSavingsAccount = await _context.SavingsAccounts.FirstOrDefaultAsync(sa => sa.SavingsAccountCode == savingsAccountNumber);
+                var detailSavingsAccount = await _context.SavingsAccounts.FirstOrDefaultAsync(sa => sa.SavingsAccountCode == savingsAccountCode);
                 if (detailSavingsAccount == null)
                 {
                     return NotFound(
@@ -334,7 +316,7 @@ namespace T2305M_API.Controllers
 
                 return Ok(new GetDetailSavingsAccountDTO
                 {
-                    SavingsAccountCode = savingsAccountNumber,
+                    SavingsAccountCode = savingsAccountCode,
                     Balance = detailSavingsAccount.Balance * _savingsAccountService.GetInterestRate(detailSavingsAccount.Term) * (decimal)((DateTime.Now - detailSavingsAccount.StartDate).Days),
                     InterestRate = detailSavingsAccount.InterestRate,
                     MaturityDate = detailSavingsAccount.MaturityDate,
@@ -449,7 +431,7 @@ namespace T2305M_API.Controllers
 
                     // Calculate penalty: 2% interest rate on elapsed days
                     double elapsedYears = elapsedDays / savingsAccount.Term * 30;
-                    totalDrawAmount = savingsAccount.Balance * _savingsAccountService.GetInterestRate(1) * (decimal)elapsedYears;
+                    totalDrawAmount = savingsAccount.Balance +  savingsAccount.Balance * _savingsAccountService.GetInterestRate(1) * (decimal)elapsedYears;
                     // Deduct penalty and withdrawal amount
                 }
                 else
@@ -459,7 +441,7 @@ namespace T2305M_API.Controllers
 
                     // Calculate penalty: 2% interest rate on elapsed days
                     double elapsedYears = elapsedDays / savingsAccount.Term * 30;
-                    totalDrawAmount = savingsAccount.Balance * _savingsAccountService.GetInterestRate(savingsAccount.Term) * (decimal)(elapsedYears);
+                    totalDrawAmount = savingsAccount.Balance + savingsAccount.Balance * _savingsAccountService.GetInterestRate(savingsAccount.Term) * (decimal)(elapsedYears);
                 }
 
 
@@ -529,7 +511,7 @@ namespace T2305M_API.Controllers
 
 
                 savingsAccount.Balance = 0;
-                savingsAccount.Status = "WithDrawn & Closed";
+                savingsAccount.Status = "WITHDRAWN";
                 savingsAccount.WithdrawnDate = DateTime.Now;
                 // Save changes to the database
                 _context.SaveChanges();

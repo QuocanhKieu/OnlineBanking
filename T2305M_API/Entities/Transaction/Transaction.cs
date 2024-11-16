@@ -16,7 +16,7 @@ namespace T2305M_API.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public decimal SourceAccountBalanceAfter { get; set; }
+        public decimal? SourceAccountBalanceAfter { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal? DesAccountBalanceAfter { get; set; }
 

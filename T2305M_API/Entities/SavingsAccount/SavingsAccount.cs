@@ -35,7 +35,7 @@ namespace T2305M_API.Entities
         [MaxLength(20)]
         public string SavingsAccountCode { get; set; }  // Code for the savings account (e.g., unique identifier)
         // Navigation property
-        public User ?  User { get; set; }  // Navigation property for the user who owns the savings account
+        public virtual User?  User { get; set; }  // Navigation property for the user who owns the savings account
     }
 
 }

@@ -65,16 +65,16 @@ public class SavingsAccountService : ISavingsAccountService
         {
             basicSavingsAccountDTOs.Add(new GetDetailSavingsAccountDTO
             {
-              Balance = savingsAccount.Balance * GetInterestRate(savingsAccount.Term) * (decimal)((DateTime.Now - savingsAccount.StartDate).Days),
-              InterestRate = savingsAccount.InterestRate,
-              SavingsAccountCode = savingsAccount.SavingsAccountCode,
-              MaturityDate = savingsAccount.MaturityDate,
-              SavingsAccountId = savingsAccount.SavingsAccountId,
-              StartDate = savingsAccount.StartDate,
-              Status = savingsAccount.Status,
-              Term = savingsAccount.Term,
-              WithdrawnDate = savingsAccount.WithdrawnDate,
-              
+                Balance = savingsAccount.Balance + savingsAccount.Balance * GetInterestRate(savingsAccount.Term) * (decimal)((DateTime.Now - savingsAccount.StartDate).Days),
+                InterestRate = savingsAccount.InterestRate,
+                SavingsAccountCode = savingsAccount.SavingsAccountCode,
+                MaturityDate = savingsAccount.MaturityDate,
+                SavingsAccountId = savingsAccount.SavingsAccountId,
+                StartDate = savingsAccount.StartDate,
+                Status = savingsAccount.Status,
+                Term = savingsAccount.Term,
+                WithdrawnDate = savingsAccount.WithdrawnDate,
+
             });
         }
         // Calculate total pages

@@ -745,13 +745,13 @@
   {
     "ContainingType": "T2305M_API.Controllers.SavingsAccountController",
     "Method": "GetDetailSavingsAccountDTO",
-    "RelativePath": "api/SavingsAccount/get-detail-savings-account/{savingsAccountNumber}",
+    "RelativePath": "api/SavingsAccount/get-detail-savings-account/{savingsAccountCode}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "savingsAccountNumber",
+        "Name": "savingsAccountCode",
         "Type": "System.String",
         "IsRequired": true
       }

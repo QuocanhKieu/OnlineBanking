@@ -13,7 +13,7 @@ namespace T2305M_API.DTO.Transaction
         public string? DesAccountNumber { get; set; }
         public int? SourceAccountId { get; set; }
         public int? DesAccountId { get; set; }
-        public string SourceUserName { get; set; } 
+        public string? SourceUserName { get; set; } 
         public string? DesUserName { get; set; } 
         public decimal Amount { get; set; }
         public decimal? BalanceAfter { get; set; }
@@ -27,12 +27,12 @@ namespace T2305M_API.DTO.Transaction
     {
         public string TransactionCode { get; set; } = $"{Guid.NewGuid().ToString("N").ToUpper().Substring(0, 16)}";
         public string TransactionType { get; set; } // BANKTRANSFER, CHECKPAYMENT
-        public string SourceAccountNumber { get; set; }
+        public string? SourceAccountNumber { get; set; }
         public string? DesAccountNumber { get; set; }
-        public int SourceAccountId { get; set; }
+        public int? SourceAccountId { get; set; }
         public int? DesAccountId { get; set; }
         public decimal Amount { get; set; }
-        public decimal SourceAccountBalanceAfter { get; set; }
+        public decimal? SourceAccountBalanceAfter { get; set; }
         public decimal? DesAccountBalanceAfter { get; set; }
         public string? TransactionDescription { get; set; }
         public string? TransactionMessage { get; set; }

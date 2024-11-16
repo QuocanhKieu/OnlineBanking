@@ -367,7 +367,7 @@ namespace T2305M_API.Controllers
                 createTransactionDTO.TransactionDescription = $"Online Banking Transfer: Funds moved from Account Number: {moneyTransfer.SourceAccountNumber} to Account Number: {moneyTransfer.DesAccountNumber} | TransCode: {createTransactionDTO.TransactionCode}";
 
                 var newTransaction = await _transactionRepository.CreateTransactionAsync(createTransactionDTO);
-                var updatedSourceAccount = await _accountService.UpdateAccountBalance(newTransaction.SourceAccountBalanceAfter, newTransaction.SourceAccountNumber);
+                var updatedSourceAccount = await _accountService.UpdateAccountBalance(newTransaction.SourceAccountBalanceAfter.Value, newTransaction.SourceAccountNumber);
                 if (newTransaction.DesAccountBalanceAfter != null && newTransaction.DesAccountNumber != null)
                 {
                     var updatedDesAccount = await _accountService.UpdateAccountBalance(newTransaction.DesAccountBalanceAfter.Value, newTransaction.DesAccountNumber);
